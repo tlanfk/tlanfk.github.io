@@ -270,7 +270,7 @@
                 return () => window.removeEventListener('mousemove', moveCursor);
             }, []);
 
-            // z-index를 50에서 9999(z-[9999])로 변경하여 팝업창 위로 올라오게 설정
+            // z-index를 높여서 팝업창 위로 올라오게 설정
             return (
                 <React.Fragment>
                     <motion.div
@@ -364,7 +364,44 @@
             );
         };
 
+        // --- New: Image Zoom Modal Component ---
+        const ImageZoomModal = ({ src, alt, onClose }) => {
+            return (
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    // z-index 100으로 설정하여 프로젝트 모달(z-50)보다 위에 표시
+                    className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md"
+                    onClick={(e) => {
+                        e.stopPropagation(); // 배경 클릭 시 부모(프로젝트 모달) 닫힘 방지
+                        onClose();
+                    }}
+                >
+                    <button
+                        onClick={onClose}
+                        className="absolute top-5 right-5 p-3 text-white/70 hover:text-white bg-white/10 hover:bg-white/20 rounded-full transition-colors z-[110]"
+                    >
+                        <X size={32} />
+                    </button>
+                    <motion.img
+                        initial={{ scale: 0.9, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0.9, opacity: 0 }}
+                        transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                        src={src}
+                        alt={alt}
+                        className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl cursor-default"
+                        onClick={(e) => e.stopPropagation()} // 이미지 클릭 시 닫히지 않도록
+                    />
+                </motion.div>
+            );
+        };
+
         const ProjectModal = ({ project, onClose }) => {
+            const [isZoomed, setIsZoomed] = useState(false); // 이미지 확대 상태
+
             useEffect(() => {
                 document.body.style.overflow = 'hidden';
                 return () => {
@@ -399,24 +436,34 @@
                             <X size={24} />
                         </button>
 
-                        {/* 팝업 아이콘 가운데 정렬 (mx-auto, block/inline-flex 처리) */}
                         <div className="text-center mb-6">
                             <div className={`inline-flex p-3 rounded-xl bg-gradient-to-br ${project.color} text-white shadow-md`}>
                                 {project.icon}
                             </div>
                         </div>
 
-                        {/* 팝업 제목 가운데 정렬 (text-center) */}
                         <h2 className="text-3xl font-bold text-slate-800 mb-4 text-center">{project.title}</h2>
 
-                        {/* 이미지가 있을 때만 렌더링 */}
+                        {/* 이미지가 있을 때만 렌더링 + 클릭 이벤트 추가 */}
                         {project.image && (
-                            <div className="mb-8 rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 aspect-video flex items-center justify-center relative">
-                                <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
+                            <div
+                                className="mb-8 rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 aspect-video flex items-center justify-center relative cursor-zoom-in group"
+                                onClick={() => setIsZoomed(true)}
+                            >
+                                <img
+                                    src={project.image}
+                                    alt={project.title}
+                                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                />
+                                {/* 호버 시 확대 안내 아이콘 */}
+                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
+                                    <span className="bg-black/50 text-white px-3 py-1 rounded-full text-sm backdrop-blur-sm font-medium">
+                                        클릭하여 확대
+                                    </span>
+                                </div>
                             </div>
                         )}
 
-                        {/* 사용 기술 태그 가운데 정렬 (justify-center) */}
                         <div className="flex flex-wrap gap-2 mb-6 justify-center">
                             {project.tags.map((tag, idx) => (
                                 <span key={idx} className="px-3 py-1 text-sm font-semibold text-slate-600 bg-white border border-slate-200 rounded-full shadow-sm">
@@ -443,6 +490,18 @@
                             </div>
                         )}
                     </motion.div>
+
+                    {/* 이미지 확대 팝업 렌더링 */}
+                    <AnimatePresence>
+                        {isZoomed && (
+                            <ImageZoomModal
+                                src={project.image}
+                                alt={project.title}
+                                onClose={() => setIsZoomed(false)}
+                            />
+                        )}
+                    </AnimatePresence>
+
                 </motion.div>
             );
         };
