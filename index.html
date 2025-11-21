@@ -1,77 +1,33 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>게임 설정</title>
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #1e1e1e;
-            overflow: hidden;
-        }
-        #canvas-container {
-            position: relative;
-            max-width: 100%;
-            max-height: 100%;
-        }
-        canvas {
-            max-width: 100%;
-            max-height: 100vh;
-            object-fit: contain;
-            touch-action: none; /* 터치 스크롤 방지 */
-        }
-
-        /* 오버레이 스타일 */
-        #mapOverlay {
-            display: none; /* 기본적으로 숨김 */
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0,0,0,0.7);
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            padding: 20px;
-        }
-
-        #mapOverlay img {
-            max-width: 90%;
-            max-height: 80%;
-            margin-bottom: 20px;
-        }
-
-        #overlayBackBtn {
-            padding: 10px 20px;
-            background-color: #fff;
-            color: #000;
-            font-size: 16px;
-            border: none;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-
-        #overlayBackBtn:hover {
-            background-color: #eee;
-        }
-    </style>
+    <title>Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div id="canvas-container">
-        <canvas id="gameCanvas"></canvas>
+
+<body class="bg-slate-900 h-screen flex flex-col justify-center items-center gap-8">
+    <h1 class="text-white text-3xl font-bold mb-4">Welcome</h1>
+
+    <div class="flex gap-6">
+        <a href="pot.html"
+            class="group relative px-8 py-4 bg-slate-800 rounded-2xl border border-slate-700 hover:border-pink-500 transition-all overflow-hidden">
+            <div
+                class="absolute inset-0 bg-gradient-to-r from-sky-500 to-pink-500 opacity-0 group-hover:opacity-10 transition-opacity">
+            </div>
+            <span class="text-white font-bold text-lg relative z-10">포트폴리오 보기</span>
+        </a>
+
+        <a href="pubg.html"
+            class="group relative px-8 py-4 bg-slate-800 rounded-2xl border border-slate-700 hover:border-green-500 transition-all overflow-hidden">
+            <div
+                class="absolute inset-0 bg-gradient-to-r from-green-600 to-emerald-400 opacity-0 group-hover:opacity-10 transition-opacity">
+            </div>
+            <span class="text-white font-bold text-lg relative z-10">배그 맵 도구</span>
+        </a>
     </div>
-    <!-- 맵 정보 표시 오버레이 -->
-    <div id="mapOverlay">
-        <img src="image/bag_map.png" alt="맵 정보">
-        <button id="overlayBackBtn">뒤로</button>
-    </div>
-    <script src="script.js"></script>
 </body>
+
 </html>

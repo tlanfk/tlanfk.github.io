@@ -8,14 +8,15 @@ const pages = {
             { type: 'link', x: 678, y: 123, width: 90, height: 35, link: 'index' },   // 그래픽
             { type: 'link', x: 783, y: 123, width: 90, height: 35, link: 'page3' },   // 오디오
             { type: 'link', x: 890, y: 123, width: 90, height: 35, link: 'page4' },   // 컨트롤
-            { type: 'link', x: 1000, y: 123, width: 90, height: 35, link: 'page6' },   // 키 설정
+            { type: 'link', x: 1000, y: 123, width: 90, height: 35, link: 'page6' },  // 키 설정
             { type: 'mapButton', x: 1700, y: 20, width: 200, height: 40, text: "맵 정보 프로그램 v1" }
         ]
     },
     'page2': {
         image: 'image/2.png',
         elements: [
-            { type: 'text', x: 790, y: 200, text: "렌더링 크기: 100.000000", width: 240, height: 40 },
+            // 요청사항 반영: 100 -> 120으로 수정
+            { type: 'text', x: 790, y: 200, text: "렌더링 크기 : 120.000000", width: 240, height: 40 },
             { type: 'link', x: 125, y: 200, width: 90, height: 35, link: 'index' },
             { type: 'text', x: 830, y: 335, text: "중간", width: 120, height: 40 },
             { type: 'text', x: 830, y: 490, text: "낮음", width: 120, height: 40 },
@@ -95,7 +96,7 @@ let currentPage = 'index';
 let currentScrollIndex = 0;
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
-const imageCache = {}; // 이미지 캐싱용 객체 추가
+const imageCache = {};
 
 // 오버레이 DOM
 const mapOverlay = document.getElementById('mapOverlay');
@@ -166,8 +167,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // 페이지 요소 렌더링
         page.elements.forEach(element => {
             if (element.type === 'link') {
-                ctx.fillStyle = 'rgba(255, 0, 0, 0.3)';
-                ctx.fillRect(element.x, element.y, element.width, element.height);
+                // 요청사항 반영: 빨간 네모박스(디버깅용) 렌더링 코드 삭제됨
+                // 기능은 유지되지만 화면에는 보이지 않습니다.
             } else if (element.type === 'text') {
                 ctx.fillStyle = 'rgba(68, 68, 68, 1.0)';
                 ctx.fillRect(element.x, element.y, element.width, element.height);
@@ -179,7 +180,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const textY = element.y + element.height / 2;
                 ctx.fillText(element.text, textX, textY);
             } else if (element.type === 'mapButton') {
-                ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+                // 맵 정보 버튼 스타일
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
                 ctx.fillRect(element.x, element.y, element.width, element.height);
 
                 ctx.strokeStyle = 'white';
@@ -220,7 +222,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (element.type === 'mapButton' &&
                 x >= element.x && x <= element.x + element.width &&
                 y >= element.y && y <= element.y + element.height) {
-                // 맵 오버레이 보여주기
                 mapOverlay.style.display = 'flex';
             }
         });
@@ -246,7 +247,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function handleTouchMove(e) {
-        e.preventDefault();
+        // preventDefault는 스크롤이 필요한 페이지에서만 적용하거나
+        // passive: false 옵션과 함께 사용하여 경고를 없애는 것이 좋습니다.
+        if (e.cancelable) e.preventDefault();
     }
 
     function handleTouchEnd(e) {
