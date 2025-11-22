@@ -1,6 +1,6 @@
 # Privacy Policy for YouTube Trinity
 
-**Last Updated :** 2025-11-22
+**Last Updated:** 2025-11-22
 
 ### 1. Data Collection
 "YouTube Trinity" does not collect, store, or transmit any personal identification information or user data. All operations are performed locally on the user's browser.
