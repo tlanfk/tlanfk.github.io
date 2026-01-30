@@ -48,10 +48,10 @@
     <header class="py-10 px-4 text-center">
         <h1 class="text-4xl md:text-5xl font-bold mb-4 flex items-center justify-center gap-3">
             <i data-lucide="target" class="pubg-yellow w-10 h-10"></i>
-            PUBG <span class="pubg-yellow">PRO</span> 감도
+            PUBG <span class="pubg-yellow">PRO</span> SENSITIVITY
         </h1>
         <p class="text-slate-400 max-w-2xl mx-auto">
-            배틀그라운드 프로 선수 감도 확인하세요.
+            세계 최고 프로 선수들의 마우스 감도와 세팅값을 실시간으로 확인하세요.
         </p>
     </header>
 
@@ -104,14 +104,17 @@
             <!-- Loading State -->
             <div id="loading" class="p-20 text-center flex flex-col items-center gap-4">
                 <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#f2a900]"></div>
-                <p class="text-slate-400">data.json 파일을 불러오는 중입니다...</p>
+                <p class="text-slate-400">데이터를 불러오는 중입니다...</p>
             </div>
 
             <!-- Error State -->
-            <div id="errorState" class="hidden p-20 text-center flex flex-col items-center gap-4">
-                <i data-lucide="alert-circle" class="w-16 h-16 text-red-500"></i>
-                <p class="text-white text-lg font-bold">데이터 로드 실패</p>
-                <p class="text-slate-400" id="errorMessage">data.json 파일을 찾을 수 없거나 형식이 잘못되었습니다.</p>
+            <div id="errorState" class="hidden p-10 md:p-20 text-center flex flex-col items-center gap-4">
+                <i data-lucide="alert-triangle" class="w-16 h-16 text-amber-500"></i>
+                <p class="text-white text-lg font-bold" id="errorTitle">데이터 로드 오류</p>
+                <div class="bg-slate-900/80 p-6 rounded-xl border border-slate-700 text-left max-w-lg">
+                    <p class="text-slate-300 text-sm mb-2" id="errorMessage"></p>
+                    <p class="text-xs text-slate-500 mt-2 italic">* 깃허브 레포지토리에 파일이 있는지, 이름이 맞는지 확인해 주세요.</p>
+                </div>
             </div>
 
             <!-- Empty State -->
@@ -123,7 +126,8 @@
     </main>
 
     <script>
-        const dataUrl = 'data.json'; 
+        // 깃허브 레포지토리에 있는 파일명인 'result.json'으로 수정했습니다.
+        const dataUrl = 'result.json'; 
         let players = [];
         let currentRegion = 'ALL';
 
@@ -136,17 +140,22 @@
 
         async function loadData() {
             try {
-                // 캐시 방지를 위해 타임스탬프 추가 가능 (선택 사항)
+                // 로컬에서 직접 파일을 열 때의 안내 강화
+                if (window.location.protocol === 'file:') {
+                    throw new Error("로컬 보안 정책(CORS)으로 인해 브라우저에서 직접 열면 데이터를 불러올 수 없습니다. 깃허브 주소(https://tlanfk.github.io/pro.html 등)로 접속하시거나 VS Code의 Live Server를 이용해 주세요.");
+                }
+
+                // 캐시 방지를 위해 타임스탬프 추가
                 const response = await fetch(dataUrl + '?t=' + new Date().getTime());
                 
                 if (!response.ok) {
-                    throw new Error(`파일을 찾을 수 없습니다. (Status : ${response.status})`);
+                    throw new Error(`파일을 찾을 수 없습니다. (상태 코드 : ${response.status})\n서버에 '${dataUrl}' 파일이 있는지 확인해 주세요.`);
                 }
                 
                 players = await response.json();
                 
                 if (!Array.isArray(players)) {
-                    throw new Error("JSON 형식이 배열([])이 아닙니다.");
+                    throw new Error("JSON 데이터가 올바른 배열 형식이 아닙니다.");
                 }
 
                 loadingDiv.classList.add('hidden');
@@ -154,7 +163,7 @@
                 lucide.createIcons();
 
             } catch (error) {
-                console.error('Error loading JSON :', error);
+                console.error('Data Load Error :', error);
                 loadingDiv.classList.add('hidden');
                 errorDiv.classList.remove('hidden');
                 errorMessage.innerText = error.message;
@@ -174,18 +183,18 @@
                     row.className = 'border-b border-slate-800/50 hover:bg-slate-700/30 transition-colors group';
                     
                     row.innerHTML = `
-                        <td class="p-5 font-bold text-[#f2a900] group-hover:text-white transition-colors">${player["이름"]}</td>
-                        <td class="p-5"><span class="bg-slate-800 text-slate-400 text-xs px-2 py-1 rounded border border-slate-700 font-medium">${player["지역"]}</span></td>
-                        <td class="p-5 font-mono text-slate-300">${player["DPI"]}</td>
-                        <td class="p-5 font-semibold text-white">${player["일반 감도"]}</td>
-                        <td class="p-5 text-emerald-400 font-mono">${player["수직감도"]}</td>
-                        <td class="p-5 text-slate-300">${player["스코프 감도"]}</td>
-                        <td class="p-5 text-center text-slate-400 text-sm">${player["2배"]}</td>
-                        <td class="p-5 text-center text-slate-400 text-sm">${player["3배"]}</td>
-                        <td class="p-5 text-center text-slate-400 text-sm">${player["4배"]}</td>
-                        <td class="p-5 text-center text-slate-400 text-sm">${player["6배"]}</td>
-                        <td class="p-5 text-center text-slate-400 text-sm">${player["8배"]}</td>
-                        <td class="p-5 text-xs text-slate-500 font-mono">${player["해상도"]}</td>
+                        <td class="p-5 font-bold text-[#f2a900] group-hover:text-white transition-colors">${player["이름"] || '-'}</td>
+                        <td class="p-5"><span class="bg-slate-800 text-slate-400 text-xs px-2 py-1 rounded border border-slate-700 font-medium">${player["지역"] || '-'}</span></td>
+                        <td class="p-5 font-mono text-slate-300">${player["DPI"] || '-'}</td>
+                        <td class="p-5 font-semibold text-white">${player["일반 감도"] || '-'}</td>
+                        <td class="p-5 text-emerald-400 font-mono">${player["수직감도"] || '-'}</td>
+                        <td class="p-5 text-slate-300">${player["스코프 감도"] || '-'}</td>
+                        <td class="p-5 text-center text-slate-400 text-sm">${player["2배"] || '-'}</td>
+                        <td class="p-5 text-center text-slate-400 text-sm">${player["3배"] || '-'}</td>
+                        <td class="p-5 text-center text-slate-400 text-sm">${player["4배"] || '-'}</td>
+                        <td class="p-5 text-center text-slate-400 text-sm">${player["6배"] || '-'}</td>
+                        <td class="p-5 text-center text-slate-400 text-sm">${player["8배"] || '-'}</td>
+                        <td class="p-5 text-xs text-slate-500 font-mono">${player["해상도"] || '-'}</td>
                     `;
                     tableBody.appendChild(row);
                 });
