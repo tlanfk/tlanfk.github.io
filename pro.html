@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>배틀그라운드 프로 감도 DB</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap');
+        
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .pubg-yellow {
+            color: #f2a900;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #f2a900;
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-20">
+
+    <!-- Header -->
+    <header class="py-10 px-4 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4 flex items-center justify-center gap-3">
+            <i data-lucide="target" class="pubg-yellow w-10 h-10"></i>
+            PUBG <span class="pubg-yellow">PRO</span> 감도
+        </h1>
+        <p class="text-slate-400 max-w-2xl mx-auto">
+            배틀그라운드 프로 선수 감도 확인하세요.
+        </p>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4">
+        <!-- Search & Filter Area -->
+        <div class="glass-card p-6 rounded-2xl mb-8 flex flex-col md:flex-row gap-4 items-center justify-between">
+            <div class="relative w-full md:w-96">
+                <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5"></i>
+                <input 
+                    type="text" 
+                    id="searchInput"
+                    placeholder="선수 이름 또는 지역 검색..." 
+                    class="w-full bg-slate-800 border border-slate-700 rounded-xl py-3 pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-[#f2a900] transition-all"
+                >
+            </div>
+            <div class="flex gap-2 w-full md:w-auto overflow-x-auto pb-2 md:pb-0" id="filterContainer">
+                <button onclick="filterRegion('ALL')" class="region-btn active px-4 py-2 rounded-lg bg-[#f2a900] text-black border border-[#f2a900] transition-all text-sm font-semibold">전체</button>
+                <button onclick="filterRegion('KR')" class="region-btn px-4 py-2 rounded-lg bg-slate-800 text-slate-400 border border-slate-700 transition-all text-sm font-semibold hover:bg-slate-700">KR</button>
+                <button onclick="filterRegion('AS')" class="region-btn px-4 py-2 rounded-lg bg-slate-800 text-slate-400 border border-slate-700 transition-all text-sm font-semibold hover:bg-slate-700">AS</button>
+                <button onclick="filterRegion('APAC')" class="region-btn px-4 py-2 rounded-lg bg-slate-800 text-slate-400 border border-slate-700 transition-all text-sm font-semibold hover:bg-slate-700">APAC</button>
+                <button onclick="filterRegion('EMEA')" class="region-btn px-4 py-2 rounded-lg bg-slate-800 text-slate-400 border border-slate-700 transition-all text-sm font-semibold hover:bg-slate-700">EMEA</button>
+                <button onclick="filterRegion('AM')" class="region-btn px-4 py-2 rounded-lg bg-slate-800 text-slate-400 border border-slate-700 transition-all text-sm font-semibold hover:bg-slate-700">AM</button>
+            </div>
+        </div>
+
+        <!-- Table Content -->
+        <div class="overflow-x-auto glass-card rounded-2xl shadow-2xl relative">
+            <table class="w-full text-left border-collapse min-w-[1000px]">
+                <thead>
+                    <tr class="border-b border-slate-700 bg-slate-800/50">
+                        <th class="p-5 font-bold text-sm text-slate-300">이름</th>
+                        <th class="p-5 font-bold text-sm text-slate-300">지역</th>
+                        <th class="p-5 font-bold text-sm text-slate-300">DPI</th>
+                        <th class="p-5 font-bold text-sm text-slate-300">일반</th>
+                        <th class="p-5 font-bold text-sm text-slate-300">수직</th>
+                        <th class="p-5 font-bold text-sm text-slate-300">스코프</th>
+                        <th class="p-5 font-bold text-sm text-slate-300 text-center">2x</th>
+                        <th class="p-5 font-bold text-sm text-slate-300 text-center">3x</th>
+                        <th class="p-5 font-bold text-sm text-slate-300 text-center">4x</th>
+                        <th class="p-5 font-bold text-sm text-slate-300 text-center">6x</th>
+                        <th class="p-5 font-bold text-sm text-slate-300 text-center">8x</th>
+                        <th class="p-5 font-bold text-sm text-slate-300">해상도</th>
+                    </tr>
+                </thead>
+                <tbody id="playerTableBody">
+                    <!-- Data will be injected here -->
+                </tbody>
+            </table>
+            
+            <!-- Loading State -->
+            <div id="loading" class="p-20 text-center flex flex-col items-center gap-4">
+                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#f2a900]"></div>
+                <p class="text-slate-400">data.json 파일을 불러오는 중입니다...</p>
+            </div>
+
+            <!-- Error State -->
+            <div id="errorState" class="hidden p-20 text-center flex flex-col items-center gap-4">
+                <i data-lucide="alert-circle" class="w-16 h-16 text-red-500"></i>
+                <p class="text-white text-lg font-bold">데이터 로드 실패</p>
+                <p class="text-slate-400" id="errorMessage">data.json 파일을 찾을 수 없거나 형식이 잘못되었습니다.</p>
+            </div>
+
+            <!-- Empty State -->
+            <div id="empty" class="hidden p-20 text-center flex flex-col items-center gap-4">
+                <i data-lucide="user-x" class="w-16 h-16 text-slate-600"></i>
+                <p class="text-slate-400 text-lg">검색 결과가 없습니다.</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const dataUrl = 'data.json'; 
+        let players = [];
+        let currentRegion = 'ALL';
+
+        const tableBody = document.getElementById('playerTableBody');
+        const loadingDiv = document.getElementById('loading');
+        const emptyDiv = document.getElementById('empty');
+        const errorDiv = document.getElementById('errorState');
+        const errorMessage = document.getElementById('errorMessage');
+        const searchInput = document.getElementById('searchInput');
+
+        async function loadData() {
+            try {
+                // 캐시 방지를 위해 타임스탬프 추가 가능 (선택 사항)
+                const response = await fetch(dataUrl + '?t=' + new Date().getTime());
+                
+                if (!response.ok) {
+                    throw new Error(`파일을 찾을 수 없습니다. (Status : ${response.status})`);
+                }
+                
+                players = await response.json();
+                
+                if (!Array.isArray(players)) {
+                    throw new Error("JSON 형식이 배열([])이 아닙니다.");
+                }
+
+                loadingDiv.classList.add('hidden');
+                renderPlayers(players);
+                lucide.createIcons();
+
+            } catch (error) {
+                console.error('Error loading JSON :', error);
+                loadingDiv.classList.add('hidden');
+                errorDiv.classList.remove('hidden');
+                errorMessage.innerText = error.message;
+                lucide.createIcons();
+            }
+        }
+
+        function renderPlayers(data) {
+            tableBody.innerHTML = '';
+            
+            if (data.length === 0) {
+                emptyDiv.classList.remove('hidden');
+            } else {
+                emptyDiv.classList.add('hidden');
+                data.forEach(player => {
+                    const row = document.createElement('tr');
+                    row.className = 'border-b border-slate-800/50 hover:bg-slate-700/30 transition-colors group';
+                    
+                    row.innerHTML = `
+                        <td class="p-5 font-bold text-[#f2a900] group-hover:text-white transition-colors">${player["이름"]}</td>
+                        <td class="p-5"><span class="bg-slate-800 text-slate-400 text-xs px-2 py-1 rounded border border-slate-700 font-medium">${player["지역"]}</span></td>
+                        <td class="p-5 font-mono text-slate-300">${player["DPI"]}</td>
+                        <td class="p-5 font-semibold text-white">${player["일반 감도"]}</td>
+                        <td class="p-5 text-emerald-400 font-mono">${player["수직감도"]}</td>
+                        <td class="p-5 text-slate-300">${player["스코프 감도"]}</td>
+                        <td class="p-5 text-center text-slate-400 text-sm">${player["2배"]}</td>
+                        <td class="p-5 text-center text-slate-400 text-sm">${player["3배"]}</td>
+                        <td class="p-5 text-center text-slate-400 text-sm">${player["4배"]}</td>
+                        <td class="p-5 text-center text-slate-400 text-sm">${player["6배"]}</td>
+                        <td class="p-5 text-center text-slate-400 text-sm">${player["8배"]}</td>
+                        <td class="p-5 text-xs text-slate-500 font-mono">${player["해상도"]}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            }
+        }
+
+        function filterData() {
+            const searchTerm = searchInput.value.toLowerCase();
+            
+            const filtered = players.filter(p => {
+                const name = (p["이름"] || "").toString().toLowerCase();
+                const region = (p["지역"] || "").toLowerCase();
+                
+                const matchesSearch = name.includes(searchTerm) || region.includes(searchTerm);
+                const matchesRegion = currentRegion === 'ALL' || p["지역"] === currentRegion;
+                
+                return matchesSearch && matchesRegion;
+            });
+            
+            renderPlayers(filtered);
+        }
+
+        function filterRegion(region) {
+            currentRegion = region;
+            
+            document.querySelectorAll('.region-btn').forEach(btn => {
+                const btnText = btn.innerText === '전체' ? 'ALL' : btn.innerText;
+                if(btnText === region) {
+                    btn.classList.add('bg-[#f2a900]', 'text-black', 'border-[#f2a900]');
+                    btn.classList.remove('bg-slate-800', 'text-slate-400', 'border-slate-700');
+                } else {
+                    btn.classList.remove('bg-[#f2a900]', 'text-black', 'border-[#f2a900]');
+                    btn.classList.add('bg-slate-800', 'text-slate-400', 'border-slate-700');
+                }
+            });
+
+            filterData();
+        }
+
+        searchInput.addEventListener('input', filterData);
+        window.onload = loadData;
+    </script>
+</body>
+</html>
