@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
         body { font-family: 'Pretendard', sans-serif; background-color: #f3f4f6; overflow-x: hidden; }
         .glass-panel { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
         .gradient-bg { background: linear-gradient(135deg, #FF9A9E 0%, #FECFEF 99%, #FECFEF 100%); }
@@ -15,78 +16,90 @@
         
         /* 플래시 게임용 타겟 애니메이션 */
         #game-target { transition: all 0.2s ease-out; }
+        
+        /* 스크롤바 커스텀 */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
 
     <!-- 네비게이션 바 -->
     <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-200">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex items-center cursor-pointer" onclick="showView('home')">
                     <span class="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-500">PlayZ</span>
                 </div>
                 <div class="flex space-x-4 sm:space-x-8 items-center text-sm sm:text-base font-semibold text-gray-600">
-                    <button onclick="showView('minigame')" class="hover:text-pink-500 transition-colors">미니 게임</button>
-                    <button onclick="showView('balance')" class="hover:text-pink-500 transition-colors">밸런스 게임</button>
-                    <button onclick="showView('worldcup')" class="hover:text-pink-500 transition-colors">월드컵</button>
+                    <button onclick="scrollToSection('section-minigame')" class="hover:text-pink-500 transition-colors">미니 게임</button>
+                    <button onclick="scrollToSection('section-balance')" class="hover:text-pink-500 transition-colors">밸런스 게임</button>
+                    <button onclick="scrollToSection('section-worldcup')" class="hover:text-pink-500 transition-colors">월드컵</button>
                 </div>
             </div>
         </div>
     </nav>
 
     <!-- 메인 컨텐츠 영역 -->
-    <main class="flex-grow flex items-center justify-center p-4">
+    <main class="flex-grow flex flex-col items-center justify-start p-4 md:p-8">
         
-        <!-- ==================== 1. 홈 화면 ==================== -->
-        <div id="view-home" class="w-full max-w-4xl space-y-8 animate-fade-in block">
-            <div class="text-center mb-10">
-                <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-3">🔥 인스타 스토리 박제소</h1>
-                <p class="text-gray-500">원하는 게임을 즐기고 결과를 다운로드해서 친구들에게 공유해보세요!</p>
+        <!-- ==================== 1. 홈 화면 (카드 리스트) ==================== -->
+        <div id="view-home" class="w-full max-w-5xl space-y-12 animate-fade-in block">
+            <div class="text-center mb-10 pt-4">
+                <h1 class="text-3xl md:text-5xl font-extrabold text-gray-800 mb-4">🔥 PlayZ 오락실</h1>
+                <p class="text-gray-500 font-medium">원하는 게임을 즐기고 결과를 다운로드해서 친구들에게 공유해보세요!</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- 미니 게임 카드 -->
-                <div onclick="showView('minigame')" class="glass-panel p-6 cursor-pointer hover:-translate-y-2 transition-transform duration-300">
-                    <div class="w-16 h-16 rounded-full gradient-bg-game flex items-center justify-center text-3xl mb-4 shadow-lg">🎯</div>
-                    <h2 class="text-xl font-bold mb-2">미니 게임</h2>
-                    <p class="text-gray-500 text-sm">10초 순발력 테스트! 당신의 피지컬 점수는 과연?</p>
+            <!-- 미니 게임 섹션 -->
+            <section id="section-minigame">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                    <span class="text-3xl">🎯</span> 미니 게임
+                </h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5" id="home-minigame-list">
+                    <!-- JS로 렌더링 -->
                 </div>
+            </section>
 
-                <!-- 밸런스 게임 카드 -->
-                <div onclick="showView('balance')" class="glass-panel p-6 cursor-pointer hover:-translate-y-2 transition-transform duration-300">
-                    <div class="w-16 h-16 rounded-full gradient-bg flex items-center justify-center text-3xl mb-4 shadow-lg">⚖️</div>
-                    <h2 class="text-xl font-bold mb-2">밸런스 게임</h2>
-                    <p class="text-gray-500 text-sm">극악의 난이도! 둘 중 하나만 선택해야 한다면?</p>
+            <!-- 밸런스 게임 섹션 -->
+            <section id="section-balance">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                    <span class="text-3xl">⚖️</span> 밸런스 게임
+                </h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5" id="home-balance-list">
+                    <!-- JS로 렌더링 -->
                 </div>
+            </section>
 
-                <!-- 월드컵 카드 -->
-                <div onclick="showView('worldcup')" class="glass-panel p-6 cursor-pointer hover:-translate-y-2 transition-transform duration-300">
-                    <div class="w-16 h-16 rounded-full gradient-bg-worldcup flex items-center justify-center text-3xl mb-4 shadow-lg">🏆</div>
-                    <h2 class="text-xl font-bold mb-2">이상형 월드컵</h2>
-                    <p class="text-gray-500 text-sm">10강부터 시작하는 치열한 최애 결정전!</p>
+            <!-- 월드컵 섹션 -->
+            <section id="section-worldcup" class="pb-10">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                    <span class="text-3xl">🏆</span> 이상형 월드컵
+                </h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5" id="home-worldcup-list">
+                    <!-- JS로 렌더링 -->
                 </div>
-            </div>
+            </section>
         </div>
 
         <!-- ==================== 2. 미니 게임 화면 ==================== -->
-        <div id="view-minigame" class="glass-panel w-full max-w-md p-6 text-center relative overflow-hidden hidden">
-            <h2 class="text-2xl font-bold text-gray-800 mb-2">🎯 10초 순발력 테스트</h2>
-            <p class="text-gray-500 mb-6 text-sm">움직이는 타겟을 최대한 많이 클릭하세요!</p>
+        <div id="view-minigame" class="glass-panel w-full max-w-md p-6 text-center relative overflow-hidden hidden mt-10">
+            <h2 id="minigame-title" class="text-2xl font-bold text-gray-800 mb-2">🎯 10초 순발력 테스트</h2>
+            <p id="minigame-desc" class="text-gray-500 mb-6 text-sm">움직이는 타겟을 최대한 많이 클릭하세요!</p>
 
             <!-- 게임 플레이 영역 -->
             <div id="minigame-play" class="block">
-                <div class="flex justify-between mb-4 font-bold text-lg">
+                <div class="flex justify-between mb-4 font-bold text-lg px-2">
                     <div class="text-pink-500">시간 : <span id="game-time">10</span>초</div>
                     <div class="text-blue-500">점수 : <span id="game-score">0</span>점</div>
                 </div>
                 <!-- 게임 보드 -->
                 <div id="game-board" class="w-full h-64 bg-gray-100 rounded-xl relative overflow-hidden border-2 border-dashed border-gray-300">
-                    <div id="game-start-btn" onclick="startMiniGame()" class="absolute inset-0 flex items-center justify-center bg-black/10 cursor-pointer hover:bg-black/20 z-10 font-bold text-xl text-gray-700">
+                    <div id="game-start-btn" onclick="startMiniGame()" class="absolute inset-0 flex items-center justify-center bg-black/10 cursor-pointer hover:bg-black/20 z-10 font-bold text-xl text-gray-700 transition-colors">
                         클릭해서 시작하기
                     </div>
                     <!-- 타겟 -->
-                    <button id="game-target" onmousedown="hitTarget()" class="absolute w-12 h-12 bg-red-500 rounded-full shadow-lg text-white font-bold hidden items-center justify-center">
+                    <button id="game-target" onmousedown="hitTarget()" class="absolute w-12 h-12 bg-red-500 rounded-full shadow-lg text-white font-bold hidden items-center justify-center cursor-crosshair">
                         터치!
                     </button>
                 </div>
@@ -105,77 +118,89 @@
                     <button onclick="downloadResult('capture-minigame', 'minigame')" class="w-full flex items-center justify-center gap-2 p-4 bg-gray-800 text-white rounded-xl font-bold shadow-lg hover:bg-gray-700 transition-colors">
                         ⬇️ 결과 이미지 다운로드
                     </button>
-                    <button onclick="resetMiniGame()" class="text-sm text-gray-400 underline mt-4">다시 하기</button>
+                    <div class="flex justify-between px-2">
+                        <button onclick="resetMiniGame()" class="text-sm text-gray-500 hover:text-pink-500 font-bold">🔄 다시 하기</button>
+                        <button onclick="showView('home')" class="text-sm text-gray-500 hover:text-pink-500 font-bold">🏠 홈으로</button>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- ==================== 3. 밸런스 게임 화면 ==================== -->
-        <div id="view-balance" class="glass-panel w-full max-w-md p-6 text-center relative overflow-hidden hidden">
-            
-            <!-- 밸런스 게임 목록 -->
-            <div id="balance-list" class="block">
-                <h2 class="text-2xl font-bold text-gray-800 mb-6">⚖️ 극악의 밸런스 게임</h2>
-                <div class="space-y-3" id="balance-menu">
-                    <!-- JS로 목록 생성됨 -->
-                </div>
-            </div>
-
+        <div id="view-balance" class="glass-panel w-full max-w-md p-6 text-center relative overflow-hidden hidden mt-10">
             <!-- 밸런스 게임 플레이 -->
-            <div id="balance-play" class="hidden space-y-4">
-                <h2 id="balance-title" class="text-xl font-semibold mb-6">질문</h2>
-                <button onclick="selectBalanceOption('A')" id="btn-balance-A" class="w-full p-6 bg-white border-2 border-pink-200 rounded-xl hover:bg-pink-50 transition-all font-bold text-lg text-gray-700 shadow-sm">A</button>
-                <div class="text-gray-400 font-bold">VS</div>
-                <button onclick="selectBalanceOption('B')" id="btn-balance-B" class="w-full p-6 bg-white border-2 border-blue-200 rounded-xl hover:bg-blue-50 transition-all font-bold text-lg text-gray-700 shadow-sm">B</button>
+            <div id="balance-play" class="block space-y-4">
+                <div class="flex justify-between items-center mb-2 px-1">
+                    <span id="balance-topic-name" class="text-sm font-bold text-pink-500 bg-pink-50 px-3 py-1 rounded-full">주제명</span>
+                    <span id="balance-progress" class="text-sm font-bold text-gray-400">1/5</span>
+                </div>
+                <h2 id="balance-title" class="text-xl font-bold text-gray-800 mb-6 mt-4 px-2 break-keep">질문 내용이 여기에 표시됩니다.</h2>
+                
+                <button onclick="selectBalanceOption('A')" id="btn-balance-A" class="w-full p-5 bg-white border-2 border-pink-200 rounded-xl hover:bg-pink-50 hover:border-pink-400 transition-all font-bold text-lg text-gray-700 shadow-sm break-keep">선택지 A</button>
+                <div class="text-gray-400 font-bold py-1">VS</div>
+                <button onclick="selectBalanceOption('B')" id="btn-balance-B" class="w-full p-5 bg-white border-2 border-blue-200 rounded-xl hover:bg-blue-50 hover:border-blue-400 transition-all font-bold text-lg text-gray-700 shadow-sm break-keep">선택지 B</button>
             </div>
 
             <!-- 밸런스 게임 결과 -->
             <div id="balance-result" class="hidden space-y-6">
                 <div id="capture-balance" class="gradient-bg p-8 rounded-2xl shadow-inner text-white relative">
                     <div class="absolute top-4 left-4 text-xs font-bold opacity-70">Balance Game</div>
-                    <div id="result-balance-title" class="text-sm font-bold opacity-80 mt-4 mb-2 line-clamp-2">질문</div>
+                    <div class="absolute top-4 right-4 text-xs font-bold bg-white/30 px-2 py-1 rounded text-white" id="result-topic-badge">주제명</div>
+                    <div id="result-balance-title" class="text-sm font-bold opacity-90 mt-6 mb-2 break-keep">질문</div>
                     <h3 class="text-lg font-bold mb-4 drop-shadow-md">나의 선택은 : </h3>
-                    <div id="selected-balance-text" class="text-2xl font-extrabold mb-6 drop-shadow-lg">선택값</div>
-                    <div class="bg-white/30 rounded-lg p-4 backdrop-blur-sm">
+                    <div id="selected-balance-text" class="text-2xl font-extrabold mb-6 drop-shadow-lg break-keep">선택값</div>
+                    <div class="bg-white/30 rounded-xl p-4 backdrop-blur-sm">
                         <p class="text-sm font-medium mb-1">나와 같은 선택 비율 : </p>
-                        <p class="text-2xl font-bold" id="balance-percentage">0%</p>
+                        <p class="text-3xl font-extrabold" id="balance-percentage">0%</p>
                     </div>
                 </div>
 
                 <div class="space-y-3">
+                    <button id="btn-next-balance" onclick="nextBalanceQuestion()" class="w-full p-4 bg-pink-500 text-white rounded-xl font-bold shadow-lg hover:bg-pink-600 transition-colors">
+                        다음 질문 가기 ➡️
+                    </button>
                     <button onclick="downloadResult('capture-balance', 'balance')" class="w-full flex items-center justify-center gap-2 p-4 bg-gray-800 text-white rounded-xl font-bold shadow-lg hover:bg-gray-700 transition-colors">
                         ⬇️ 결과 이미지 다운로드
                     </button>
-                    <button onclick="showView('balance')" class="text-sm text-gray-400 underline mt-4">목록으로</button>
+                    <div class="pt-2">
+                        <button onclick="showView('home')" class="text-sm text-gray-500 hover:text-pink-500 font-bold">🏠 다른 게임 하기</button>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- ==================== 4. 월드컵 화면 ==================== -->
-        <div id="view-worldcup" class="glass-panel w-full max-w-md p-6 text-center relative overflow-hidden hidden">
-            
+        <div id="view-worldcup" class="glass-panel w-full max-w-md p-6 text-center relative overflow-hidden hidden mt-10">
+            <!-- 월드컵 시작 전 -->
             <div id="worldcup-intro" class="block">
-                <h2 class="text-2xl font-bold text-gray-800 mb-2">🏆 최애 야식 월드컵</h2>
-                <p class="text-gray-500 mb-8 text-sm">총 10강부터 시작합니다! 당신의 최애는?</p>
-                <button onclick="startWorldCup()" class="w-full p-4 bg-purple-600 text-white rounded-xl font-bold text-lg hover:bg-purple-700 shadow-lg">
-                    월드컵 시작하기 (10강)
+                <div class="text-5xl mb-4" id="wc-intro-emoji">🏆</div>
+                <h2 id="wc-intro-title" class="text-2xl font-bold text-gray-800 mb-2">월드컵 제목</h2>
+                <p id="wc-intro-desc" class="text-gray-500 mb-8 text-sm">설명</p>
+                <button onclick="startWorldCupMatch()" class="w-full p-4 bg-purple-600 text-white rounded-xl font-bold text-lg hover:bg-purple-700 shadow-lg transition-colors">
+                    <span id="wc-intro-btn-text">월드컵 시작하기 (8강)</span>
                 </button>
+                <button onclick="showView('home')" class="mt-4 text-sm text-gray-500 font-bold hover:text-purple-600">← 뒤로 가기</button>
             </div>
 
             <!-- 월드컵 플레이 -->
             <div id="worldcup-play" class="hidden space-y-4">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-bold text-purple-600" id="worldcup-round-text">10강 (1/5)</h2>
+                <div class="flex justify-between items-center mb-4 px-2">
+                    <span id="worldcup-topic-badge" class="text-sm font-bold text-purple-600 bg-purple-100 px-3 py-1 rounded-full">주제명</span>
+                    <h2 class="text-lg font-bold text-purple-700" id="worldcup-round-text">8강 (1/4)</h2>
                 </div>
                 
-                <div class="grid grid-cols-1 gap-4">
-                    <button onclick="selectWorldCup(0)" id="btn-wc-A" class="w-full h-32 bg-white border-2 border-gray-200 rounded-xl hover:border-purple-400 hover:bg-purple-50 transition-all font-bold text-2xl text-gray-800 shadow-sm flex flex-col items-center justify-center">
-                        <span id="wc-A-emoji" class="text-4xl mb-1">🍗</span>
+                <div class="grid grid-cols-1 gap-4 relative mt-2">
+                    <button onclick="selectWorldCup(0)" id="btn-wc-A" class="w-full h-36 bg-white border-2 border-gray-200 rounded-2xl hover:border-purple-400 hover:bg-purple-50 transition-all font-bold text-2xl text-gray-800 shadow-sm flex flex-col items-center justify-center group relative overflow-hidden">
+                        <span id="wc-A-emoji" class="text-5xl mb-2 group-hover:scale-110 transition-transform">🍗</span>
                         <span id="wc-A-name">치킨</span>
                     </button>
-                    <div class="text-gray-400 font-bold bg-white w-10 h-10 mx-auto rounded-full flex items-center justify-center shadow-md absolute left-1/2 top-1/2 -translate-x-1/2 translate-y-2 z-10">VS</div>
-                    <button onclick="selectWorldCup(1)" id="btn-wc-B" class="w-full h-32 bg-white border-2 border-gray-200 rounded-xl hover:border-purple-400 hover:bg-purple-50 transition-all font-bold text-2xl text-gray-800 shadow-sm flex flex-col items-center justify-center">
-                        <span id="wc-B-emoji" class="text-4xl mb-1">🍕</span>
+                    
+                    <div class="text-white font-extrabold bg-gradient-to-r from-pink-500 to-purple-500 w-12 h-12 mx-auto rounded-full flex items-center justify-center shadow-lg absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 border-4 border-[#f3f4f6]">
+                        VS
+                    </div>
+                    
+                    <button onclick="selectWorldCup(1)" id="btn-wc-B" class="w-full h-36 bg-white border-2 border-gray-200 rounded-2xl hover:border-purple-400 hover:bg-purple-50 transition-all font-bold text-2xl text-gray-800 shadow-sm flex flex-col items-center justify-center group relative overflow-hidden">
+                        <span id="wc-B-emoji" class="text-5xl mb-2 group-hover:scale-110 transition-transform">🍕</span>
                         <span id="wc-B-name">피자</span>
                     </button>
                 </div>
@@ -185,8 +210,9 @@
             <div id="worldcup-result" class="hidden space-y-6">
                 <div id="capture-worldcup" class="gradient-bg-worldcup p-8 rounded-2xl shadow-inner text-white relative">
                     <div class="absolute top-4 left-4 text-xs font-bold opacity-70">World Cup Final</div>
-                    <h3 class="text-lg font-bold mb-2 drop-shadow-md mt-4">최애 야식 월드컵 우승!</h3>
-                    <div id="wc-winner-emoji" class="text-6xl mb-4 mt-6 drop-shadow-lg">👑</div>
+                    <div class="absolute top-4 right-4 text-xs font-bold bg-white/30 px-2 py-1 rounded text-white" id="wc-result-badge">주제명</div>
+                    <h3 class="text-xl font-extrabold mb-2 drop-shadow-md mt-6">최종 우승! 🎉</h3>
+                    <div id="wc-winner-emoji" class="text-7xl mb-4 mt-6 drop-shadow-lg">👑</div>
                     <div id="wc-winner-name" class="text-3xl font-extrabold mb-6 drop-shadow-lg">치킨</div>
                 </div>
 
@@ -194,7 +220,10 @@
                     <button onclick="downloadResult('capture-worldcup', 'worldcup')" class="w-full flex items-center justify-center gap-2 p-4 bg-gray-800 text-white rounded-xl font-bold shadow-lg hover:bg-gray-700 transition-colors">
                         ⬇️ 결과 이미지 다운로드
                     </button>
-                    <button onclick="showView('worldcup')" class="text-sm text-gray-400 underline mt-4">다시 하기</button>
+                    <div class="flex justify-between px-2 pt-2">
+                        <button onclick="startWorldCupMatch()" class="text-sm text-gray-500 hover:text-purple-600 font-bold">🔄 다시 하기</button>
+                        <button onclick="showView('home')" class="text-sm text-gray-500 hover:text-purple-600 font-bold">🏠 홈으로</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -202,17 +231,82 @@
     </main>
 
     <!-- 모달 메시지 창 -->
-    <div id="modal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
-        <div class="bg-white p-6 rounded-2xl shadow-2xl max-w-sm w-full text-center m-4">
-            <h3 id="modal-title" class="text-lg font-bold mb-2">알림</h3>
-            <p id="modal-message" class="text-gray-600 mb-6 text-sm">메시지 내용</p>
-            <button onclick="closeModal()" class="w-full py-3 bg-pink-500 text-white rounded-xl font-semibold">확인</button>
+    <div id="modal" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50 backdrop-blur-sm transition-opacity">
+        <div class="bg-white p-8 rounded-3xl shadow-2xl max-w-sm w-full text-center m-4 transform scale-95 transition-transform">
+            <h3 id="modal-title" class="text-xl font-extrabold mb-3 text-gray-800">알림</h3>
+            <p id="modal-message" class="text-gray-600 mb-8 font-medium leading-relaxed">메시지 내용</p>
+            <button onclick="closeModal()" class="w-full py-3.5 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-xl font-bold text-lg hover:opacity-90 shadow-lg">확인</button>
         </div>
     </div>
 
     <script>
-        /* ==================== 공통 네비게이션 로직 ==================== */
+        /* ==================== 데이터 영역 ==================== */
+        const minigameData = [
+            { id: 'reaction', title: '순발력 테스트', emoji: '🎯', desc: '10초 안에 나타나는 타겟을 최대한 많이 터치하세요!', color: 'from-green-400 to-blue-400' },
+            { id: 'ready1', title: '두더지 잡기', emoji: '🦔', desc: '업데이트 준비 중인 게임입니다.', color: 'from-gray-300 to-gray-400' },
+            { id: 'ready2', title: '기억력 게임', emoji: '🧠', desc: '업데이트 준비 중인 게임입니다.', color: 'from-gray-300 to-gray-400' }
+        ];
+
+        const balanceData = [
+            {
+                id: 'food', title: '음식 밸런스', emoji: '🍔', desc: '치킨 vs 피자, 당신의 영원한 숙제!', color: 'from-pink-400 to-rose-400',
+                questions: [
+                    { title: "평생 단 하나만 먹어야 한다면?", a: "평생 치킨만 먹기 🍗", b: "평생 피자만 먹기 🍕", pA: 62, pB: 38 },
+                    { title: "눈 딱 감고 먹어야 한다면?", a: "카레맛 나는 💩", b: "💩맛 나는 카레 🍛", pA: 15, pB: 85 },
+                    { title: "탕수육 먹을 때 당신은?", a: "바삭하게 찍먹 🥢", b: "촉촉하게 부먹 🥣", pA: 55, pB: 45 },
+                    { title: "여름 최고의 음식은?", a: "가슴속까지 시원한 물냉면 🧊", b: "매콤달콤 비빔냉면 🌶️", pA: 60, pB: 40 }
+                ]
+            },
+            {
+                id: 'life', title: '인생 극악 선택', emoji: '🤔', desc: '둘 중 하나는 무조건 선택해야 한다!', color: 'from-indigo-400 to-purple-400',
+                questions: [
+                    { title: "100억 받고 평생 스마트폰 없이 살기?", a: "100억 받고 스마트폰 포기 💰", b: "그냥 지금처럼 스마트폰 쓰며 살기 📱", pA: 35, pB: 65 },
+                    { title: "평생 하나의 계절만 살아야 한다면?", a: "평생 여름에 살기 🔥", b: "평생 겨울에 살기 ❄️", pA: 40, pB: 60 },
+                    { title: "기억 상실 밸런스", a: "기억을 잃지만 행복하게 사는 삶 ☺️", b: "기억이 있지만 불행한 삶 😢", pA: 71, pB: 29 }
+                ]
+            },
+            {
+                id: 'animal', title: '동물 밸런스', emoji: '🐾', desc: '귀여움의 한도 초과 대결!', color: 'from-amber-300 to-orange-400',
+                questions: [
+                    { title: "당신의 최애 반려동물은?", a: "애교만점 강아지 🐶", b: "도도한 매력 고양이 🐱", pA: 52, pB: 48 },
+                    { title: "능력치 선택", a: "새처럼 하늘을 날 수 있는 능력 🦅", b: "물고기처럼 물속을 숨쉬는 능력 🐠", pA: 75, pB: 25 }
+                ]
+            }
+        ];
+
+        const worldCupData = [
+            {
+                id: 'food', title: '최애 야식 월드컵', emoji: '🤤', desc: '이 구역의 진정한 야식의 제왕은?', color: 'from-red-400 to-orange-500',
+                items: [
+                    { name: "치킨", emoji: "🍗" }, { name: "피자", emoji: "🍕" },
+                    { name: "족발", emoji: "🍖" }, { name: "보쌈", emoji: "🥓" },
+                    { name: "떡볶이", emoji: "🌶️" }, { name: "라면", emoji: "🍜" },
+                    { name: "햄버거", emoji: "🍔" }, { name: "곱창", emoji: "🥘" }
+                ]
+            },
+            {
+                id: 'hobby', title: '취미 생활 월드컵', emoji: '🎮', desc: '쉬는 날 가장 하고 싶은 것은?', color: 'from-blue-400 to-indigo-500',
+                items: [
+                    { name: "게임하기", emoji: "🎮" }, { name: "누워서 유튜브", emoji: "📱" },
+                    { name: "맛있는 요리", emoji: "👨‍🍳" }, { name: "헬스장 가기", emoji: "💪" },
+                    { name: "그림 그리기", emoji: "🎨" }, { name: "해외 여행", emoji: "✈️" },
+                    { name: "음악 감상", emoji: "🎵" }, { name: "영화 몰아보기", emoji: "🎬" }
+                ]
+            },
+            {
+                id: 'travel', title: '여행지 월드컵', emoji: '✈️', desc: '지금 당장 떠나고 싶은 곳은?', color: 'from-teal-400 to-emerald-500',
+                items: [
+                    { name: "낭만의 파리", emoji: "🗼" }, { name: "화려한 뉴욕", emoji: "🗽" },
+                    { name: "가까운 도쿄", emoji: "⛩️" }, { name: "휴양지 발리", emoji: "🌴" },
+                    { name: "역사의 로마", emoji: "🏛️" }, { name: "푸른 제주도", emoji: "🍊" },
+                    { name: "오로라 아이슬란드", emoji: "🌌" }, { name: "대자연 스위스", emoji: "🏔️" }
+                ]
+            }
+        ];
+
+        /* ==================== 공통 네비게이션 & UI 렌더링 ==================== */
         const views = ['home', 'minigame', 'balance', 'worldcup'];
+        
         function showView(viewId) {
             views.forEach(v => {
                 document.getElementById(`view-${v}`).classList.add('hidden');
@@ -220,11 +314,58 @@
             });
             document.getElementById(`view-${viewId}`).classList.remove('hidden');
             document.getElementById(`view-${viewId}`).classList.add('block');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
 
-            // 뷰 초기화 로직
-            if(viewId === 'minigame') resetMiniGame();
-            if(viewId === 'balance') initBalanceList();
-            if(viewId === 'worldcup') resetWorldCup();
+        function scrollToSection(sectionId) {
+            showView('home');
+            setTimeout(() => {
+                const element = document.getElementById(sectionId);
+                if (element) {
+                    const yOffset = -80; 
+                    const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                    window.scrollTo({ top: y, behavior: 'smooth' });
+                }
+            }, 100);
+        }
+
+        // 홈 화면 카드 렌더링
+        function renderHomeCards() {
+            // 미니게임 렌더링
+            const minigameList = document.getElementById('home-minigame-list');
+            minigameList.innerHTML = minigameData.map(game => `
+                <div onclick="startMiniGameMode('${game.id}')" class="glass-panel p-5 cursor-pointer hover:-translate-y-2 transition-transform duration-300 border border-transparent hover:border-gray-200">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br ${game.color} flex items-center justify-center text-3xl mb-4 shadow-md text-white">${game.emoji}</div>
+                    <h3 class="text-lg font-bold mb-1 text-gray-800">${game.title}</h3>
+                    <p class="text-gray-500 text-xs font-medium leading-relaxed">${game.desc}</p>
+                </div>
+            `).join('');
+
+            // 밸런스 게임 렌더링
+            const balanceList = document.getElementById('home-balance-list');
+            balanceList.innerHTML = balanceData.map(topic => `
+                <div onclick="startBalanceTopic('${topic.id}')" class="glass-panel p-5 cursor-pointer hover:-translate-y-2 transition-transform duration-300 border border-transparent hover:border-gray-200">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br ${topic.color} flex items-center justify-center text-3xl shadow-md text-white">${topic.emoji}</div>
+                        <span class="bg-gray-100 text-gray-500 text-xs font-bold px-2 py-1 rounded-lg">${topic.questions.length}제</span>
+                    </div>
+                    <h3 class="text-lg font-bold mb-1 text-gray-800">${topic.title}</h3>
+                    <p class="text-gray-500 text-xs font-medium leading-relaxed">${topic.desc}</p>
+                </div>
+            `).join('');
+
+            // 월드컵 렌더링
+            const worldcupList = document.getElementById('home-worldcup-list');
+            worldcupList.innerHTML = worldCupData.map(wc => `
+                <div onclick="startWorldCupTopic('${wc.id}')" class="glass-panel p-5 cursor-pointer hover:-translate-y-2 transition-transform duration-300 border border-transparent hover:border-gray-200">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br ${wc.color} flex items-center justify-center text-3xl shadow-md text-white">${wc.emoji}</div>
+                        <span class="bg-gray-100 text-gray-500 text-xs font-bold px-2 py-1 rounded-lg">${wc.items.length}강</span>
+                    </div>
+                    <h3 class="text-lg font-bold mb-1 text-gray-800">${wc.title}</h3>
+                    <p class="text-gray-500 text-xs font-medium leading-relaxed">${wc.desc}</p>
+                </div>
+            `).join('');
         }
 
         /* ==================== 이미지 다운로드 공통 로직 ==================== */
@@ -232,7 +373,7 @@
             showModal("이미지 저장 중...", "결과를 고화질 이미지로 만들고 있습니다.");
             try {
                 const targetElement = document.getElementById(elementId);
-                const canvas = await html2canvas(targetElement, { scale: 3, backgroundColor: null });
+                const canvas = await html2canvas(targetElement, { scale: 3, backgroundColor: null, useCORS: true });
                 const dataUrl = canvas.toDataURL('image/png');
                 
                 const link = document.createElement('a');
@@ -241,11 +382,11 @@
                 link.click();
                 
                 closeModal();
-                setTimeout(() => showModal("다운로드 완료!", "갤러리에 저장된 사진을 인스타그램 스토리에 공유해보세요!"), 300);
+                setTimeout(() => showModal("다운로드 완료!", "갤러리에 저장된 사진을 친구들에게 공유해보세요!"), 300);
             } catch (error) {
                 console.error("다운로드 에러:", error);
                 closeModal();
-                showModal("오류", "이미지 생성에 실패했습니다. 화면을 캡처해주세요.");
+                showModal("오류", "이미지 생성에 실패했습니다. 기기의 캡처 기능을 이용해주세요.");
             }
         }
 
@@ -261,10 +402,23 @@
             document.getElementById('modal').classList.remove('flex');
         }
 
-        /* ==================== 1. 미니 게임 (순발력 테스트) 로직 ==================== */
+        /* ==================== 1. 미니 게임 로직 ==================== */
         let gameScore = 0;
         let gameTime = 10;
         let gameInterval, targetInterval;
+        let currentMinigame = null;
+
+        function startMiniGameMode(id) {
+            if (id !== 'reaction') {
+                showModal("업데이트 안내", "해당 게임은 열심히 제작 중입니다! 곧 만나요 🛠️");
+                return;
+            }
+            currentMinigame = minigameData.find(m => m.id === id);
+            document.getElementById('minigame-title').innerText = `${currentMinigame.emoji} ${currentMinigame.title}`;
+            document.getElementById('minigame-desc').innerText = currentMinigame.desc;
+            showView('minigame');
+            resetMiniGame();
+        }
         
         function resetMiniGame() {
             document.getElementById('minigame-play').classList.remove('hidden');
@@ -292,19 +446,17 @@
                 if(gameTime <= 0) endGame();
             }, 1000);
 
-            // 타겟이 자동으로 0.8초마다 이동 (난이도)
             targetInterval = setInterval(moveTarget, 800);
         }
 
         function moveTarget() {
             const board = document.getElementById('game-board');
             const target = document.getElementById('game-target');
-            // 보드 안에서 타겟 크기(48px)를 뺀 랜덤 위치 계산
             const maxX = board.clientWidth - 48;
             const maxY = board.clientHeight - 48;
             
-            const randomX = Math.floor(Math.random() * maxX);
-            const randomY = Math.floor(Math.random() * maxY);
+            const randomX = Math.max(0, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(0, Math.floor(Math.random() * maxY));
             
             target.style.left = `${randomX}px`;
             target.style.top = `${randomY}px`;
@@ -313,7 +465,7 @@
         function hitTarget() {
             gameScore++;
             document.getElementById('game-score').innerText = gameScore;
-            moveTarget(); // 클릭 즉시 도망감
+            moveTarget(); 
         }
 
         function endGame() {
@@ -325,7 +477,7 @@
             document.getElementById('final-score-text').innerText = `${gameScore}점`;
             
             let evalText = "";
-            if(gameScore >= 20) evalText = "🔥 미친 피지컬! 프로게이머 준비하세요.";
+            if(gameScore >= 20) evalText = "🔥 미친 피지컬! 프로게이머 지망생?";
             else if(gameScore >= 15) evalText = "✨ 오.. 반응속도 꽤 좋은데요?";
             else if(gameScore >= 10) evalText = "🙂 평범한 일반인의 피지컬입니다.";
             else evalText = "🐢 혹시 나무늘보이신가요?";
@@ -334,71 +486,76 @@
         }
 
         /* ==================== 2. 밸런스 게임 로직 ==================== */
-        const balanceData = [
-            { id: 1, title: "평생 단 하나만 포기해야 한다면?", a: "평생 양치 안 하기 🪥", b: "평생 샤워 안 하기 🚿", pA: 12, pB: 88 },
-            { id: 2, title: "더 참기 힘든 끔찍한 상황은?", a: "한여름에 에어컨 없이 살기 🔥", b: "한겨울에 보일러 없이 살기 ❄️", pA: 45, pB: 55 },
-            { id: 3, title: "눈 딱 감고 먹어야 한다면?", a: "카레맛 나는 똥 💩", b: "똥맛 나는 카레 🍛", pA: 5, pB: 95 },
-            { id: 4, title: "100억 받고 평생 스마트폰 없이 살기?", a: "100억 받고 스마트폰 포기 💰", b: "그냥 지금처럼 스마트폰 쓰며 살기 📱", pA: 78, pB: 22 }
-        ];
-        let currentBalanceGame = null;
+        let currentBalanceTopic = null;
+        let currentBalanceIndex = 0;
 
-        function initBalanceList() {
-            document.getElementById('balance-list').classList.remove('hidden');
-            document.getElementById('balance-play').classList.add('hidden');
-            document.getElementById('balance-result').classList.add('hidden');
+        function startBalanceTopic(topicId) {
+            currentBalanceTopic = balanceData.find(t => t.id === topicId);
+            currentBalanceIndex = 0;
             
-            const menu = document.getElementById('balance-menu');
-            menu.innerHTML = '';
-            balanceData.forEach(game => {
-                const btn = document.createElement('button');
-                btn.className = "w-full p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:border-pink-300 hover:shadow-md transition-all text-left";
-                btn.innerHTML = `<span class="font-bold text-gray-800">Q. ${game.title}</span>`;
-                btn.onclick = () => startBalance(game.id);
-                menu.appendChild(btn);
-            });
+            document.getElementById('balance-topic-name').innerText = `${currentBalanceTopic.emoji} ${currentBalanceTopic.title}`;
+            document.getElementById('result-topic-badge').innerText = currentBalanceTopic.title;
+            
+            showView('balance');
+            renderBalanceQuestion();
         }
 
-        function startBalance(id) {
-            currentBalanceGame = balanceData.find(g => g.id === id);
-            document.getElementById('balance-list').classList.add('hidden');
+        function renderBalanceQuestion() {
             document.getElementById('balance-play').classList.remove('hidden');
+            document.getElementById('balance-result').classList.add('hidden');
             
-            document.getElementById('balance-title').innerText = currentBalanceGame.title;
-            document.getElementById('btn-balance-A').innerText = currentBalanceGame.a;
-            document.getElementById('btn-balance-B').innerText = currentBalanceGame.b;
+            const q = currentBalanceTopic.questions[currentBalanceIndex];
+            const total = currentBalanceTopic.questions.length;
+            
+            document.getElementById('balance-progress').innerText = `${currentBalanceIndex + 1}/${total}`;
+            document.getElementById('balance-title').innerText = `Q. ${q.title}`;
+            document.getElementById('btn-balance-A').innerText = q.a;
+            document.getElementById('btn-balance-B').innerText = q.b;
         }
 
         function selectBalanceOption(option) {
             document.getElementById('balance-play').classList.add('hidden');
             document.getElementById('balance-result').classList.remove('hidden');
             
-            document.getElementById('result-balance-title').innerText = `Q. ${currentBalanceGame.title}`;
+            const q = currentBalanceTopic.questions[currentBalanceIndex];
+            document.getElementById('result-balance-title').innerText = `Q. ${q.title}`;
             
+            // 약간의 랜덤성 부여 (실제 통계처럼 보이게)
+            let baseA = q.pA + Math.floor(Math.random() * 5 - 2);
+            let baseB = 100 - baseA;
+
             if(option === 'A') {
-                document.getElementById('selected-balance-text').innerText = currentBalanceGame.a;
-                document.getElementById('balance-percentage').innerText = `${currentBalanceGame.pA}%`;
+                document.getElementById('selected-balance-text').innerText = q.a;
+                document.getElementById('balance-percentage').innerText = `${baseA}%`;
             } else {
-                document.getElementById('selected-balance-text').innerText = currentBalanceGame.b;
-                document.getElementById('balance-percentage').innerText = `${currentBalanceGame.pB}%`;
+                document.getElementById('selected-balance-text').innerText = q.b;
+                document.getElementById('balance-percentage').innerText = `${baseB}%`;
+            }
+
+            // 마지막 문제 체크
+            if(currentBalanceIndex >= currentBalanceTopic.questions.length - 1) {
+                document.getElementById('btn-next-balance').innerText = "결과창 닫기 🏠";
+                document.getElementById('btn-next-balance').onclick = () => showView('home');
+            } else {
+                document.getElementById('btn-next-balance').innerText = "다음 질문 가기 ➡️";
+                document.getElementById('btn-next-balance').onclick = nextBalanceQuestion;
             }
         }
 
-        /* ==================== 3. 이상형 월드컵 로직 (10강 부전승 처리 로직) ==================== */
-        const worldCupItems = [
-            { name: "치킨", emoji: "🍗" }, { name: "피자", emoji: "🍕" },
-            { name: "족발", emoji: "🍖" }, { name: "보쌈", emoji: "🥓" },
-            { name: "떡볶이", emoji: "🌶️" }, { name: "라면", emoji: "🍜" },
-            { name: "햄버거", emoji: "🍔" }, { name: "곱창", emoji: "🥘" },
-            { name: "닭발", emoji: "🐓" }, { name: "삼겹살", emoji: "🥩" }
-        ];
+        function nextBalanceQuestion() {
+            currentBalanceIndex++;
+            renderBalanceQuestion();
+        }
 
-        let wcCurrentRound = []; // 현재 라운드 남은 항목들
-        let wcNextRound = [];    // 다음 라운드 진출 항목들
+
+        /* ==================== 3. 이상형 월드컵 로직 ==================== */
+        let currentWCTopic = null;
+        let wcCurrentRound = []; 
+        let wcNextRound = [];    
         let wcTotalMatches = 0;
         let wcCurrentMatch = 0;
         let wcRoundName = "";
 
-        // 배열 셔플 함수
         function shuffleArray(array) {
             let curId = array.length;
             while (0 !== curId) {
@@ -411,23 +568,36 @@
             return array;
         }
 
-        function resetWorldCup() {
+        function startWorldCupTopic(topicId) {
+            currentWCTopic = worldCupData.find(t => t.id === topicId);
+            
+            document.getElementById('wc-intro-emoji').innerText = currentWCTopic.emoji;
+            document.getElementById('wc-intro-title').innerText = `${currentWCTopic.title}`;
+            document.getElementById('wc-intro-desc').innerText = currentWCTopic.desc;
+            document.getElementById('wc-intro-btn-text').innerText = `월드컵 시작하기 (${currentWCTopic.items.length}강)`;
+            
+            document.getElementById('worldcup-topic-badge').innerText = currentWCTopic.title;
+            document.getElementById('wc-result-badge').innerText = currentWCTopic.title;
+
             document.getElementById('worldcup-intro').classList.remove('hidden');
             document.getElementById('worldcup-play').classList.add('hidden');
             document.getElementById('worldcup-result').classList.add('hidden');
+            
+            showView('worldcup');
         }
 
-        function startWorldCup() {
+        function startWorldCupMatch() {
             document.getElementById('worldcup-intro').classList.add('hidden');
             document.getElementById('worldcup-play').classList.remove('hidden');
+            document.getElementById('worldcup-result').classList.add('hidden');
             
-            wcCurrentRound = shuffleArray([...worldCupItems]);
+            wcCurrentRound = shuffleArray([...currentWCTopic.items]);
             wcNextRound = [];
-            setupRoundInfo();
+            setupWCRoundInfo();
             renderWorldCupMatch();
         }
 
-        function setupRoundInfo() {
+        function setupWCRoundInfo() {
             const count = wcCurrentRound.length;
             if(count === 2) wcRoundName = "결승전";
             else if(count === 4) wcRoundName = "4강";
@@ -439,7 +609,6 @@
         }
 
         function renderWorldCupMatch() {
-            // 라운드 종료 시 다음 라운드로
             if (wcCurrentRound.length === 0) {
                 if (wcNextRound.length === 1) {
                     showWorldCupResult(wcNextRound[0]);
@@ -447,22 +616,19 @@
                 }
                 wcCurrentRound = shuffleArray([...wcNextRound]);
                 wcNextRound = [];
-                setupRoundInfo();
+                setupWCRoundInfo();
             }
 
-            // 부전승 처리 로직 (1개만 남았을 경우)
             if (wcCurrentRound.length === 1) {
-                // 부전승 안내 모달을 짧게 띄움
                 showModal("부전승!", `[${wcCurrentRound[0].name}] 다음 라운드로 자동 진출합니다.`);
                 setTimeout(() => {
                     closeModal();
                     wcNextRound.push(wcCurrentRound.pop());
-                    renderWorldCupMatch(); // 다음 라운드로 진행
+                    renderWorldCupMatch(); 
                 }, 1500);
                 return;
             }
 
-            // 대결 렌더링
             const itemA = wcCurrentRound[wcCurrentRound.length - 1];
             const itemB = wcCurrentRound[wcCurrentRound.length - 2];
 
@@ -475,7 +641,6 @@
         }
 
         function selectWorldCup(winnerIndex) {
-            // 뒷쪽부터 Pop 했으므로 index 0은 맨 마지막 요소, 1은 그 앞 요소
             const winner = wcCurrentRound.pop();
             const loser = wcCurrentRound.pop();
             
@@ -496,6 +661,12 @@
             document.getElementById('wc-winner-emoji').innerText = winnerItem.emoji;
             document.getElementById('wc-winner-name').innerText = winnerItem.name;
         }
+
+        // 초기 실행
+        window.onload = () => {
+            renderHomeCards();
+            showView('home');
+        };
         
     </script>
 </body>

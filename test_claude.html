@@ -1,572 +1,314 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🎮 GAMEVERSE — 밸런스게임 · 플래시게임 · 월드컵</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Gmarket+Sans:wght@300;500;700&family=Black+Han+Sans&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+<title>GAMEVERSE</title>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0a0a0f;
-    --surface: #12121a;
-    --card: #1a1a26;
-    --card2: #1e1e2e;
-    --accent1: #ff4d6d;
-    --accent2: #7b5ea7;
-    --accent3: #00d4aa;
-    --accent4: #ffd166;
-    --text: #f0f0f8;
-    --muted: #7a7a99;
-    --border: rgba(255,255,255,0.07);
-    --glow1: rgba(255,77,109,0.3);
-    --glow2: rgba(123,94,167,0.3);
-    --glow3: rgba(0,212,170,0.3);
-  }
-  *{margin:0;padding:0;box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    background:var(--bg);
-    color:var(--text);
-    font-family:'Noto Sans KR',sans-serif;
-    min-height:100vh;
-    overflow-x:hidden;
-  }
+:root{--a1:#ff4d6d;--a2:#7b5ea7;--a3:#00d4aa;--a4:#ffd166;--g1:rgba(255,77,109,.3);--g2:rgba(123,94,167,.3);--g3:rgba(0,212,170,.3);}
+[data-theme="dark"]{--bg:#0a0a0f;--sf:#12121a;--cd:#1a1a26;--cd2:#1e1e2e;--tx:#f0f0f8;--tx2:#c0c0d8;--mt:#7a7a99;--br:rgba(255,255,255,.07);--br2:rgba(255,255,255,.14);--nav:rgba(10,10,15,.92);--hg:rgba(123,94,167,.18);--to:var(--cd);--so:1;}
+[data-theme="light"]{--bg:#f2f2f7;--sf:#ffffff;--cd:#ffffff;--cd2:#eeeef4;--tx:#1a1a2e;--tx2:#3a3a58;--mt:#8888aa;--br:rgba(0,0,0,.08);--br2:rgba(0,0,0,.15);--nav:rgba(255,255,255,.94);--hg:rgba(123,94,167,.07);--to:#ffffff;--so:0;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'Noto Sans KR',sans-serif;min-height:100vh;overflow-x:hidden;transition:background .3s,color .3s;}
 
-  /* ── NAV ── */
-  nav{
-    position:fixed;top:0;left:0;right:0;z-index:999;
-    padding:0 24px;
-    height:64px;
-    display:flex;align-items:center;justify-content:space-between;
-    background:rgba(10,10,15,0.85);
-    backdrop-filter:blur(20px);
-    border-bottom:1px solid var(--border);
-  }
-  .logo{
-    font-family:'Black Han Sans',sans-serif;
-    font-size:22px;
-    letter-spacing:2px;
-    background:linear-gradient(135deg,var(--accent1),var(--accent2),var(--accent3));
-    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-    background-clip:text;
-  }
-  .nav-tabs{display:flex;gap:4px;}
-  .nav-tab{
-    padding:8px 18px;border-radius:20px;
-    background:transparent;border:1px solid transparent;
-    color:var(--muted);cursor:pointer;font-size:14px;font-family:inherit;
-    transition:all .25s;white-space:nowrap;
-  }
-  .nav-tab:hover{color:var(--text);border-color:var(--border);}
-  .nav-tab.active{
-    color:#fff;
-    background:linear-gradient(135deg,var(--accent1),var(--accent2));
-    border-color:transparent;
-    box-shadow:0 0 18px var(--glow1);
-  }
+/* STAR */
+.star-bg{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:var(--so);
+  background-image:radial-gradient(1px 1px at 10% 20%,white 0%,transparent 100%),radial-gradient(1px 1px at 75% 60%,white 0%,transparent 100%),radial-gradient(1px 1px at 45% 80%,white 0%,transparent 100%),radial-gradient(1px 1px at 90% 15%,white 0%,transparent 100%),radial-gradient(1px 1px at 30% 50%,white 0%,transparent 100%),radial-gradient(1px 1px at 60% 35%,white 0%,transparent 100%);
+  transition:opacity .4s;}
 
-  /* ── HERO ── */
-  .hero{
-    padding:120px 24px 60px;
-    text-align:center;
-    position:relative;
-    overflow:hidden;
-  }
-  .hero::before{
-    content:'';position:absolute;inset:0;
-    background:radial-gradient(ellipse 80% 60% at 50% 0%, rgba(123,94,167,0.18) 0%, transparent 70%);
-    pointer-events:none;
-  }
-  .hero-title{
-    font-family:'Black Han Sans',sans-serif;
-    font-size:clamp(36px,7vw,80px);
-    line-height:1.1;
-    margin-bottom:16px;
-  }
-  .hero-title span{
-    background:linear-gradient(135deg,var(--accent1) 0%,var(--accent4) 50%,var(--accent3) 100%);
-    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  }
-  .hero-sub{font-size:16px;color:var(--muted);margin-bottom:40px;}
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:999;padding:0 18px;height:58px;display:flex;align-items:center;justify-content:space-between;background:var(--nav);backdrop-filter:blur(20px);border-bottom:1px solid var(--br);transition:background .3s;}
+.logo{font-family:'Black Han Sans',sans-serif;font-size:19px;letter-spacing:2px;background:linear-gradient(135deg,var(--a1),var(--a2),var(--a3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;cursor:pointer;flex-shrink:0;}
+.nav-r{display:flex;align-items:center;gap:4px;}
+.nav-tabs{display:flex;gap:2px;}
+.nav-tab{padding:6px 13px;border-radius:18px;background:transparent;border:1px solid transparent;color:var(--mt);cursor:pointer;font-size:12px;font-family:inherit;transition:all .2s;white-space:nowrap;}
+.nav-tab:hover{color:var(--tx);border-color:var(--br2);}
+.nav-tab.active{color:#fff;background:linear-gradient(135deg,var(--a1),var(--a2));border-color:transparent;box-shadow:0 0 10px var(--g1);}
+.theme-btn{width:42px;height:24px;border-radius:12px;background:var(--cd2);border:1px solid var(--br2);cursor:pointer;position:relative;transition:all .3s;flex-shrink:0;margin-left:8px;}
+.theme-btn::after{content:'';position:absolute;top:4px;left:4px;width:14px;height:14px;border-radius:50%;background:var(--a2);transition:transform .3s,background .3s;}
+[data-theme="light"] .theme-btn::after{transform:translateX(18px);background:var(--a4);}
+.th-icons{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;padding:0 5px;font-size:8px;pointer-events:none;}
 
-  /* ── CATEGORY PILLS ── */
-  .cat-pills{
-    display:flex;gap:12px;justify-content:center;flex-wrap:wrap;
-    margin-bottom:48px;
-  }
-  .cat-pill{
-    display:flex;align-items:center;gap:8px;
-    padding:12px 24px;border-radius:50px;
-    background:var(--card);border:1px solid var(--border);
-    cursor:pointer;font-size:15px;font-family:inherit;color:var(--muted);
-    transition:all .3s;font-weight:500;
-  }
-  .cat-pill .icon{font-size:20px;}
-  .cat-pill:hover{transform:translateY(-2px);color:var(--text);border-color:rgba(255,255,255,0.15);}
-  .cat-pill.active-balance{
-    color:#fff;background:linear-gradient(135deg,#ff4d6d22,#ff4d6d44);
-    border-color:var(--accent1);box-shadow:0 0 20px var(--glow1);
-  }
-  .cat-pill.active-flash{
-    color:#fff;background:linear-gradient(135deg,#7b5ea722,#7b5ea744);
-    border-color:var(--accent2);box-shadow:0 0 20px var(--glow2);
-  }
-  .cat-pill.active-worldcup{
-    color:#fff;background:linear-gradient(135deg,#00d4aa22,#00d4aa44);
-    border-color:var(--accent3);box-shadow:0 0 20px var(--glow3);
-  }
+/* PAGES */
+.page{display:none;padding-top:58px;position:relative;z-index:1;}
+.page.visible{display:block;animation:fadeUp .3s ease;}
 
-  /* ── SECTIONS ── */
-  .section{display:none;padding:0 24px 60px;max-width:1200px;margin:0 auto;animation:fadeUp .4s ease;}
-  .section.visible{display:block;}
-  @keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+/* HERO */
+.hero{padding:52px 20px 36px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,var(--hg) 0%,transparent 70%);pointer-events:none;}
+.hero-t{font-family:'Black Han Sans',sans-serif;font-size:clamp(24px,4.5vw,50px);line-height:1.2;margin-bottom:9px;}
+.hero-t span{background:linear-gradient(135deg,var(--a1) 0%,var(--a4) 50%,var(--a3) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-s{font-size:13px;color:var(--mt);margin-bottom:26px;}
+.cat-pills{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;}
+.cat-pill{display:flex;align-items:center;gap:7px;padding:8px 18px;border-radius:50px;background:var(--cd);border:1px solid var(--br);cursor:pointer;font-size:12px;font-family:inherit;color:var(--mt);transition:all .28s;font-weight:500;}
+.cat-pill:hover{transform:translateY(-2px);color:var(--tx);border-color:var(--br2);}
+.cp-b{color:#fff;background:rgba(255,77,109,.1);border-color:var(--a1);box-shadow:0 0 14px var(--g1);}
+.cp-f{color:#fff;background:rgba(123,94,167,.1);border-color:var(--a2);box-shadow:0 0 14px var(--g2);}
+.cp-w{color:#fff;background:rgba(0,212,170,.1);border-color:var(--a3);box-shadow:0 0 14px var(--g3);}
+[data-theme="light"] .cp-b,[data-theme="light"] .cp-f,[data-theme="light"] .cp-w{color:var(--tx2);}
 
-  .section-header{
-    display:flex;align-items:center;gap:14px;
-    margin-bottom:32px;
-  }
-  .section-icon{font-size:32px;}
-  .section-title{font-family:'Black Han Sans',sans-serif;font-size:28px;}
-  .section-desc{color:var(--muted);font-size:14px;margin-top:4px;}
+/* TICKER */
+.ticker-wrap{overflow:hidden;white-space:nowrap;border-top:1px solid var(--br);border-bottom:1px solid var(--br);padding:8px 0;margin:26px 0 28px;background:var(--sf);font-size:11px;color:var(--mt);transition:background .3s;}
+.ticker{display:inline-block;animation:ticker 34s linear infinite;}
+@keyframes ticker{from{transform:translateX(100vw);}to{transform:translateX(-100%);}}
 
-  /* ── GAME CARDS GRID ── */
-  .cards-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
-    gap:20px;
-  }
-  .game-card{
-    background:var(--card);
-    border:1px solid var(--border);
-    border-radius:20px;
-    overflow:hidden;
-    cursor:pointer;
-    transition:all .3s;
-    position:relative;
-  }
-  .game-card:hover{transform:translateY(-4px);border-color:rgba(255,255,255,0.15);}
-  .game-card .thumb{
-    height:160px;
-    display:flex;align-items:center;justify-content:center;
-    font-size:60px;
-    position:relative;overflow:hidden;
-  }
-  .game-card .card-body{padding:18px;}
-  .game-card .card-title{font-size:16px;font-weight:700;margin-bottom:6px;}
-  .game-card .card-meta{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:8px;}
-  .badge{
-    display:inline-block;padding:2px 8px;border-radius:6px;
-    font-size:11px;font-weight:700;
-  }
-  .badge-hot{background:var(--accent1);color:#fff;}
-  .badge-new{background:var(--accent3);color:#000;}
-  .badge-classic{background:var(--accent4);color:#000;}
+/* CONTENT */
+.main-c{max-width:1440px;margin:0 auto;padding:0 18px 60px;}
+.cat-sec{margin-bottom:32px;}
+.cat-st{display:flex;align-items:center;gap:9px;font-family:'Black Han Sans',sans-serif;font-size:18px;margin-bottom:13px;}
+.stag{font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px;font-family:'Noto Sans KR',sans-serif;}
+.stb{background:rgba(255,77,109,.13);color:var(--a1);border:1px solid rgba(255,77,109,.22);}
+.stf{background:rgba(123,94,167,.13);color:var(--a2);border:1px solid rgba(123,94,167,.22);}
+.stw{background:rgba(0,212,170,.13);color:var(--a3);border:1px solid rgba(0,212,170,.22);}
+[data-theme="light"] .stb{color:#d02040;}[data-theme="light"] .stf{color:#5030a0;}[data-theme="light"] .stw{color:#008866;}
+.sline{flex:1;height:1px;background:var(--br);}
 
-  /* ── BALANCE GAME PLAYER ── */
-  .balance-game-area{
-    background:var(--card);
-    border:1px solid var(--border);
-    border-radius:24px;
-    padding:36px;
-    margin-top:24px;
-  }
-  .bg-question{
-    font-size:clamp(18px,3vw,26px);font-weight:700;
-    text-align:center;margin-bottom:40px;line-height:1.5;
-  }
-  .bg-choices{
-    display:grid;grid-template-columns:1fr auto 1fr;
-    gap:16px;align-items:center;
-  }
-  .bg-choice{
-    padding:28px 20px;border-radius:18px;
-    border:2px solid var(--border);
-    cursor:pointer;text-align:center;font-size:15px;font-weight:700;
-    transition:all .3s;line-height:1.5;
-    background:var(--card2);
-  }
-  .bg-choice:hover{border-color:var(--accent1);transform:scale(1.03);box-shadow:0 0 24px var(--glow1);}
-  .bg-choice.selected-a{border-color:var(--accent1);background:rgba(255,77,109,0.15);}
-  .bg-choice.selected-b{border-color:var(--accent2);background:rgba(123,94,167,0.15);}
-  .vs-badge{
-    width:48px;height:48px;border-radius:50%;
-    background:linear-gradient(135deg,var(--accent1),var(--accent2));
-    display:flex;align-items:center;justify-content:center;
-    font-family:'Black Han Sans',sans-serif;font-size:16px;
-    box-shadow:0 0 20px var(--glow2);flex-shrink:0;
-  }
-  .bg-result{
-    margin-top:28px;background:var(--card2);
-    border-radius:14px;padding:20px;display:none;
-  }
-  .bg-result.show{display:block;animation:fadeUp .3s ease;}
-  .result-bar-wrap{margin:10px 0;}
-  .result-bar-label{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;}
-  .result-bar{height:14px;border-radius:7px;background:var(--bg);overflow:hidden;}
-  .result-bar-fill{height:100%;border-radius:7px;transition:width 1s ease;}
-  .fill-a{background:linear-gradient(90deg,var(--accent1),#ff8fa3);}
-  .fill-b{background:linear-gradient(90deg,var(--accent2),#a78bca);}
+/* CARDS GRID — 50개도 OK */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:11px;}
 
-  .bg-controls{
-    display:flex;gap:12px;justify-content:center;flex-wrap:wrap;
-    margin-top:28px;
-  }
-  .btn{
-    padding:12px 28px;border-radius:12px;border:none;
-    cursor:pointer;font-size:14px;font-family:inherit;font-weight:700;
-    transition:all .25s;
-  }
-  .btn-primary{
-    background:linear-gradient(135deg,var(--accent1),var(--accent2));
-    color:#fff;box-shadow:0 4px 16px var(--glow1);
-  }
-  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px var(--glow1);}
-  .btn-outline{
-    background:transparent;border:1px solid var(--border);color:var(--text);
-  }
-  .btn-outline:hover{border-color:rgba(255,255,255,0.3);background:rgba(255,255,255,0.05);}
-  .btn-success{
-    background:linear-gradient(135deg,var(--accent3),#00b894);
-    color:#000;
-  }
-  .btn-success:hover{transform:translateY(-2px);}
+/* GAME CARD */
+.game-card{background:var(--cd);border:1px solid var(--br);border-radius:13px;overflow:hidden;cursor:pointer;transition:transform .22s,box-shadow .22s,border-color .22s;position:relative;}
+.game-card:hover{transform:translateY(-5px);border-color:var(--br2);box-shadow:0 10px 28px rgba(0,0,0,.22);}
+[data-theme="light"] .game-card{box-shadow:0 2px 7px rgba(0,0,0,.06);}
+[data-theme="light"] .game-card:hover{box-shadow:0 9px 24px rgba(0,0,0,.11);}
+.game-card .thumb{height:96px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:11px;position:relative;overflow:hidden;text-align:center;}
+.game-card .thumb::after{content:'';position:absolute;bottom:0;left:0;right:0;height:34px;background:linear-gradient(transparent,var(--to));pointer-events:none;}
+.t-emoji{font-size:28px;line-height:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,.35));}
+.t-label{font-size:11px;font-weight:700;color:#fff;line-height:1.3;text-shadow:0 1px 6px rgba(0,0,0,.6);}
+.game-card .card-body{padding:9px 11px 11px;border-top:1px solid var(--br);}
+.card-ti{font-size:11px;font-weight:700;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--tx);}
+.card-de{font-size:10px;color:var(--mt);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:29px;}
+.card-ft{display:flex;align-items:center;justify-content:space-between;margin-top:6px;}
+.badge{display:inline-block;padding:2px 6px;border-radius:4px;font-size:9px;font-weight:700;}
+.bh{background:var(--a1);color:#fff;}.bn{background:var(--a3);color:#000;}.bc{background:var(--a4);color:#000;}.bs{background:var(--mt);color:var(--sf);}
+.card-me{font-size:10px;color:var(--mt);}
+.card-coming{position:absolute;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:rgba(255,255,255,.65);letter-spacing:.5px;border-radius:13px;backdrop-filter:blur(2px);}
+[data-theme="light"] .card-coming{background:rgba(255,255,255,.55);color:var(--mt);}
+.play-btn{position:absolute;top:7px;right:7px;z-index:3;width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:9px;opacity:0;transition:opacity .18s;backdrop-filter:blur(4px);}
+.game-card:hover .play-btn{opacity:1;}
 
-  .bg-progress{
-    display:flex;align-items:center;gap:12px;margin-bottom:28px;
-  }
-  .progress-bar{flex:1;height:6px;background:var(--bg);border-radius:3px;overflow:hidden;}
-  .progress-fill{height:100%;background:linear-gradient(90deg,var(--accent1),var(--accent4));border-radius:3px;transition:width .4s;}
-  .progress-text{font-size:13px;color:var(--muted);white-space:nowrap;}
+/* PAGE INNER */
+.pi{max-width:960px;margin:0 auto;padding:26px 18px 60px;}
+.sec-hd{display:flex;align-items:center;gap:11px;margin-bottom:22px;}
+.sec-ic{font-size:27px;}.sec-ti{font-family:'Black Han Sans',sans-serif;font-size:22px;}.sec-de{color:var(--mt);font-size:11px;margin-top:3px;}
 
-  /* ── FLASH GAME AREA ── */
-  .flash-area{
-    background:var(--card);border:1px solid var(--border);
-    border-radius:24px;padding:36px;margin-top:24px;
-    display:flex;flex-direction:column;align-items:center;gap:20px;
-  }
-  .flash-canvas-wrap{
-    width:100%;max-width:600px;
-    aspect-ratio:4/3;
-    background:#000;border-radius:16px;overflow:hidden;
-    border:2px solid var(--border);
-    position:relative;display:flex;align-items:center;justify-content:center;
-  }
-  canvas{width:100%;height:100%;display:block;}
-  .flash-score{
-    font-family:'Black Han Sans',sans-serif;font-size:24px;
-    color:var(--accent4);
-  }
-  .flash-instructions{font-size:13px;color:var(--muted);text-align:center;}
+/* BALANCE */
+.bg-area{background:var(--cd);border:1px solid var(--br);border-radius:18px;padding:26px;margin-top:16px;}
+.bg-q{font-size:clamp(14px,2.8vw,21px);font-weight:700;text-align:center;margin-bottom:28px;line-height:1.5;}
+.bg-ch{display:grid;grid-template-columns:1fr auto 1fr;gap:11px;align-items:center;}
+.bg-c{padding:22px 14px;border-radius:13px;border:2px solid var(--br);cursor:pointer;text-align:center;font-size:13px;font-weight:700;transition:all .28s;line-height:1.5;background:var(--cd2);color:var(--tx);}
+.bg-c:hover{border-color:var(--a1);transform:scale(1.03);box-shadow:0 0 18px var(--g1);}
+.bg-c.sa{border-color:var(--a1);background:rgba(255,77,109,.1);}
+.bg-c.sb{border-color:var(--a2);background:rgba(123,94,167,.1);}
+.vs-b{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--a1),var(--a2));display:flex;align-items:center;justify-content:center;font-family:'Black Han Sans',sans-serif;font-size:12px;color:#fff;box-shadow:0 0 14px var(--g2);flex-shrink:0;}
+.bg-res{margin-top:18px;background:var(--cd2);border-radius:10px;padding:14px;display:none;}
+.bg-res.show{display:block;animation:fadeUp .3s ease;}
+.rb-wrap{margin:7px 0;}
+.rb-lbl{display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px;color:var(--tx2);}
+.rb{height:10px;border-radius:5px;background:var(--bg);overflow:hidden;}
+.rb-f{height:100%;border-radius:5px;transition:width 1s ease;}
+.fa{background:linear-gradient(90deg,var(--a1),#ff8fa3);}
+.fb{background:linear-gradient(90deg,var(--a2),#a78bca);}
+.bg-prog{display:flex;align-items:center;gap:9px;margin-bottom:18px;}
+.prog-bar{flex:1;height:4px;background:var(--bg);border-radius:2px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--a1),var(--a4));border-radius:2px;transition:width .4s;}
+.prog-t{font-size:11px;color:var(--mt);white-space:nowrap;}
+.bg-ctrl{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:18px;}
 
-  /* ── WORLDCUP ── */
-  .wc-area{
-    background:var(--card);border:1px solid var(--border);
-    border-radius:24px;padding:36px;margin-top:24px;
-  }
-  .wc-stage{
-    text-align:center;margin-bottom:24px;
-  }
-  .wc-stage-label{
-    display:inline-block;padding:6px 20px;border-radius:20px;
-    background:linear-gradient(135deg,var(--accent3),#00b894);
-    color:#000;font-weight:700;font-size:14px;
-  }
-  .wc-matchup{
-    display:grid;grid-template-columns:1fr auto 1fr;
-    gap:16px;align-items:center;max-width:700px;margin:0 auto;
-  }
-  .wc-item{
-    background:var(--card2);border:2px solid var(--border);
-    border-radius:18px;padding:28px 16px;text-align:center;
-    cursor:pointer;transition:all .3s;
-  }
-  .wc-item:hover{border-color:var(--accent3);transform:scale(1.03);box-shadow:0 0 24px var(--glow3);}
-  .wc-item.winner{border-color:var(--accent4);background:rgba(255,209,102,0.1);box-shadow:0 0 24px rgba(255,209,102,0.3);}
-  .wc-emoji{font-size:56px;display:block;margin-bottom:12px;}
-  .wc-name{font-size:16px;font-weight:700;}
-  .wc-bracket{
-    margin-top:28px;
-    display:flex;flex-direction:column;gap:8px;
-  }
-  .bracket-item{
-    display:flex;align-items:center;gap:10px;
-    padding:10px 14px;border-radius:10px;
-    background:var(--card2);font-size:14px;
-  }
-  .bracket-rank{
-    width:28px;height:28px;border-radius:50%;
-    display:flex;align-items:center;justify-content:center;
-    font-weight:700;font-size:12px;flex-shrink:0;
-  }
-  .rank-1{background:var(--accent4);color:#000;}
-  .rank-2{background:#c0c0c0;color:#000;}
-  .rank-3{background:#cd7f32;color:#fff;}
-  .rank-other{background:var(--border);color:var(--muted);}
+/* BUTTONS */
+.btn{padding:9px 22px;border-radius:9px;border:none;cursor:pointer;font-size:12px;font-family:inherit;font-weight:700;transition:all .2s;}
+.btn-p{background:linear-gradient(135deg,var(--a1),var(--a2));color:#fff;box-shadow:0 3px 11px var(--g1);}
+.btn-p:hover{transform:translateY(-2px);box-shadow:0 7px 18px var(--g1);}
+.btn-o{background:transparent;border:1px solid var(--br2);color:var(--tx);}
+.btn-o:hover{border-color:var(--a2);background:rgba(123,94,167,.06);}
+.btn-s{background:linear-gradient(135deg,var(--a3),#00b894);color:#000;}
+.btn-s:hover{transform:translateY(-2px);}
 
-  /* ── MODAL ── */
-  .modal-overlay{
-    position:fixed;inset:0;z-index:2000;
-    background:rgba(0,0,0,0.8);backdrop-filter:blur(10px);
-    display:flex;align-items:center;justify-content:center;
-    padding:24px;opacity:0;pointer-events:none;transition:opacity .3s;
-  }
-  .modal-overlay.open{opacity:1;pointer-events:all;}
-  .modal{
-    background:var(--surface);border:1px solid var(--border);
-    border-radius:24px;padding:36px;max-width:500px;width:100%;
-    transform:scale(.95);transition:transform .3s;
-  }
-  .modal-overlay.open .modal{transform:scale(1);}
-  .modal-title{font-family:'Black Han Sans',sans-serif;font-size:22px;margin-bottom:20px;}
-  .modal-close{
-    float:right;background:none;border:none;color:var(--muted);
-    font-size:24px;cursor:pointer;line-height:1;
-  }
+/* TOPIC SEL */
+.topic-sel{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:8px;margin-bottom:16px;}
+.topic-c{background:var(--cd2);border:1px solid var(--br);border-radius:11px;padding:12px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:9px;}
+.topic-c:hover{border-color:var(--br2);transform:translateY(-2px);}
+.tc-em{font-size:23px;}.tc-n{font-size:12px;font-weight:700;color:var(--tx);}.tc-c{font-size:10px;color:var(--mt);}
 
-  /* ── DOWNLOAD BTN AREA ── */
-  .download-strip{
-    background:linear-gradient(135deg,rgba(0,212,170,0.1),rgba(123,94,167,0.1));
-    border:1px solid rgba(0,212,170,0.3);
-    border-radius:16px;padding:20px;
-    display:flex;align-items:center;justify-content:space-between;
-    gap:16px;margin-top:24px;flex-wrap:wrap;
-  }
-  .download-info{font-size:14px;}
-  .download-info strong{color:var(--accent3);}
+/* FLASH */
+.flash-area{background:var(--cd);border:1px solid var(--br);border-radius:18px;padding:26px;margin-top:16px;display:flex;flex-direction:column;align-items:center;gap:15px;}
+.canvas-wrap{width:100%;max-width:580px;aspect-ratio:4/3;background:#000;border-radius:11px;overflow:hidden;border:2px solid var(--br);}
+canvas{width:100%;height:100%;display:block;}
+.flash-sc{font-family:'Black Han Sans',sans-serif;font-size:19px;color:var(--a4);}
+.flash-inst{font-size:10px;color:var(--mt);text-align:center;max-width:480px;}
 
-  /* ── TOPIC SELECTOR ── */
-  .topic-selector{
-    display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-    gap:12px;margin-bottom:24px;
-  }
-  .topic-card{
-    background:var(--card2);border:1px solid var(--border);
-    border-radius:14px;padding:16px;cursor:pointer;
-    transition:all .25s;display:flex;align-items:center;gap:12px;
-  }
-  .topic-card:hover{border-color:rgba(255,255,255,0.15);transform:translateY(-2px);}
-  .topic-card.selected{border-color:var(--accent1);background:rgba(255,77,109,0.1);}
-  .topic-emoji{font-size:28px;}
-  .topic-name{font-size:14px;font-weight:700;}
-  .topic-count{font-size:12px;color:var(--muted);}
+/* WORLDCUP */
+.wc-area{background:var(--cd);border:1px solid var(--br);border-radius:18px;padding:26px;margin-top:16px;}
+.wc-stg{text-align:center;margin-bottom:18px;}
+.wc-slbl{display:inline-block;padding:4px 15px;border-radius:18px;background:linear-gradient(135deg,var(--a3),#00b894);color:#000;font-weight:700;font-size:12px;}
+.wc-mu{display:grid;grid-template-columns:1fr auto 1fr;gap:11px;align-items:center;max-width:640px;margin:0 auto;}
+.wc-it{background:var(--cd2);border:2px solid var(--br);border-radius:13px;padding:22px 11px;text-align:center;cursor:pointer;transition:all .28s;}
+.wc-it:hover{border-color:var(--a3);transform:scale(1.03);box-shadow:0 0 18px var(--g3);}
+.wc-it.winner{border-color:var(--a4);background:rgba(255,209,102,.07);box-shadow:0 0 18px rgba(255,209,102,.22);}
+.wc-em{font-size:46px;display:block;margin-bottom:7px;}
+.wc-nm{font-size:13px;font-weight:700;color:var(--tx);}
+.wc-br{margin-top:18px;display:flex;flex-direction:column;gap:5px;}
+.br-it{display:flex;align-items:center;gap:7px;padding:7px 10px;border-radius:7px;background:var(--cd2);font-size:12px;color:var(--tx);}
+.br-rk{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:10px;flex-shrink:0;}
+.rk1{background:var(--a4);color:#000;}.rk2{background:#c0c0c0;color:#000;}.rk3{background:#cd7f32;color:#fff;}.rko{background:var(--br);color:var(--mt);}
 
-  /* ── HOME CARDS ── */
-  .home-section{padding:0 24px 60px;max-width:1200px;margin:0 auto;}
-  .home-cat-title{
-    font-family:'Black Han Sans',sans-serif;font-size:22px;
-    margin-bottom:20px;display:flex;align-items:center;gap:10px;
-  }
-  .home-cat-title .line{flex:1;height:1px;background:var(--border);}
+/* DL STRIP */
+.dl-strip{background:linear-gradient(135deg,rgba(0,212,170,.05),rgba(123,94,167,.05));border:1px solid rgba(0,212,170,.18);border-radius:12px;padding:15px;display:flex;align-items:center;justify-content:space-between;gap:11px;margin-top:16px;flex-wrap:wrap;}
+.dl-info{font-size:11px;color:var(--tx2);}
+.dl-info strong{color:var(--a3);}
 
-  /* SCROLLBAR */
-  ::-webkit-scrollbar{width:6px;}
-  ::-webkit-scrollbar-track{background:var(--bg);}
-  ::-webkit-scrollbar-thumb{background:var(--card);border-radius:3px;}
+/* MODAL */
+.modal-ov{position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.75);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:18px;opacity:0;pointer-events:none;transition:opacity .28s;}
+.modal-ov.open{opacity:1;pointer-events:all;}
+.modal{background:var(--sf);border:1px solid var(--br);border-radius:18px;padding:26px;max-width:440px;width:100%;transform:scale(.95);transition:transform .28s;color:var(--tx);}
+.modal-ov.open .modal{transform:scale(1);}
+.modal-ti{font-family:'Black Han Sans',sans-serif;font-size:17px;margin-bottom:14px;}
+.modal-cl{float:right;background:none;border:none;color:var(--mt);font-size:20px;cursor:pointer;line-height:1;}
 
-  /* RESPONSIVE */
-  @media(max-width:600px){
-    nav{padding:0 16px;}
-    .nav-tabs{gap:2px;}
-    .nav-tab{padding:7px 12px;font-size:12px;}
-    .hero{padding:90px 16px 40px;}
-    .bg-choices,.wc-matchup{grid-template-columns:1fr;grid-template-rows:auto auto auto;}
-    .vs-badge{margin:0 auto;}
-    .section,.home-section{padding:0 16px 48px;}
-    .balance-game-area,.flash-area,.wc-area{padding:20px;}
-    .download-strip{flex-direction:column;align-items:flex-start;}
-  }
-
-  /* TICKER */
-  .ticker-wrap{
-    overflow:hidden;white-space:nowrap;
-    border-top:1px solid var(--border);border-bottom:1px solid var(--border);
-    padding:10px 0;margin-bottom:40px;background:var(--surface);
-    font-size:13px;color:var(--muted);
-  }
-  .ticker{display:inline-block;animation:ticker 30s linear infinite;}
-  @keyframes ticker{from{transform:translateX(100vw);}to{transform:translateX(-100%);}}
-
-  /* star bg */
-  .star-bg{
-    position:fixed;inset:0;pointer-events:none;z-index:0;
-    background-image:
-      radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.15) 0%, transparent 100%),
-      radial-gradient(1px 1px at 80% 70%, rgba(255,255,255,0.1) 0%, transparent 100%),
-      radial-gradient(1px 1px at 50% 50%, rgba(255,255,255,0.08) 0%, transparent 100%);
-  }
+@keyframes fadeUp{from{opacity:0;transform:translateY(13px);}to{opacity:1;transform:translateY(0);}}
+::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--cd2);border-radius:2px;}
+@media(max-width:620px){
+  nav{padding:0 11px;}.nav-tab{padding:5px 7px;font-size:10px;}
+  .hero{padding:32px 12px 22px;}.bg-ch,.wc-mu{grid-template-columns:1fr;grid-template-rows:auto auto auto;}.vs-b{margin:0 auto;}
+  .main-c,.pi{padding:0 11px 40px;}
+  .bg-area,.flash-area,.wc-area{padding:14px;}
+  .cards-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;}
+}
 </style>
 </head>
 <body>
-
 <div class="star-bg"></div>
-
-<!-- NAV -->
 <nav>
-  <div class="logo">GAMEVERSE</div>
-  <div class="nav-tabs">
-    <button class="nav-tab active" onclick="showPage('home')">🏠 홈</button>
-    <button class="nav-tab" onclick="showPage('balance')">⚖️ 밸런스</button>
-    <button class="nav-tab" onclick="showPage('flash')">⚡ 플래시</button>
-    <button class="nav-tab" onclick="showPage('worldcup')">🏆 월드컵</button>
+  <div class="logo" onclick="showPage('home')">GAMEVERSE</div>
+  <div class="nav-r">
+    <div class="nav-tabs">
+      <button class="nav-tab active" onclick="showPage('home')">🏠 홈</button>
+      <button class="nav-tab" onclick="showPage('balance')">⚖️ 밸런스</button>
+      <button class="nav-tab" onclick="showPage('flash')">⚡ 플래시</button>
+      <button class="nav-tab" onclick="showPage('worldcup')">🏆 월드컵</button>
+    </div>
+    <button class="theme-btn" onclick="toggleTheme()" title="테마 변경">
+      <div class="th-icons"><span>🌙</span><span>☀️</span></div>
+    </button>
   </div>
 </nav>
 
-<!-- ────────────── HOME PAGE ────────────── -->
-<div id="page-home">
+<!-- HOME -->
+<div id="page-home" class="page visible">
   <div class="hero">
-    <div class="hero-title">재미있는 게임들<br><span>한 곳에서!</span></div>
-    <p class="hero-sub">밸런스게임, 플래시게임, 이상형 월드컵을 즐겨보세요 🎮</p>
+    <div class="hero-t">신나는 게임 다 모아<br><span>한 곳에서!</span></div>
+    <p class="hero-s">밸런스게임 · 플래시게임 · 이상형 월드컵 🎮</p>
     <div class="cat-pills">
-      <div class="cat-pill active-balance" onclick="showPage('balance')"><span class="icon">⚖️</span>밸런스 게임</div>
-      <div class="cat-pill active-flash" onclick="showPage('flash')"><span class="icon">⚡</span>플래시 게임</div>
-      <div class="cat-pill active-worldcup" onclick="showPage('worldcup')"><span class="icon">🏆</span>이상형 월드컵</div>
+      <div class="cat-pill cp-b" onclick="showPage('balance')">⚖️ 밸런스 게임</div>
+      <div class="cat-pill cp-f" onclick="showPage('flash')">⚡ 플래시 게임</div>
+      <div class="cat-pill cp-w" onclick="showPage('worldcup')">🏆 이상형 월드컵</div>
     </div>
   </div>
-
   <div class="ticker-wrap">
-    <span class="ticker">🔥 오늘의 인기 — 치킨 vs 피자 · 탕수육 부먹 vs 찍먹 · 공포영화 vs 로맨스 · 봄 vs 가을 · 강아지 vs 고양이 · 떡볶이 vs 라면 · 아이스아메리카노 vs 아이스라떼 ✨</span>
+    <span class="ticker">🔥 인기 — 치킨 vs 피자 · 두더지 잡기 · 탕수육 부먹 vs 찍먹 · 최애 음식 월드컵 · 기억력 게임 · 여행지 월드컵 ✨</span>
   </div>
-
-  <div class="home-section">
-    <div class="home-cat-title">⚖️ 밸런스 게임 <span class="line"></span></div>
-    <div class="cards-grid" id="home-balance-cards"></div>
-
-    <div class="home-cat-title" style="margin-top:40px;">⚡ 플래시 게임 <span class="line"></span></div>
-    <div class="cards-grid" id="home-flash-cards"></div>
-
-    <div class="home-cat-title" style="margin-top:40px;">🏆 이상형 월드컵 <span class="line"></span></div>
-    <div class="cards-grid" id="home-wc-cards"></div>
+  <div class="main-c">
+    <div class="cat-sec">
+      <div class="cat-st">⚖️ 밸런스 게임 <span class="stag stb">PICK ONE</span><div class="sline"></div></div>
+      <div class="cards-grid" id="home-b"></div>
+    </div>
+    <div class="cat-sec">
+      <div class="cat-st">⚡ 플래시 게임 <span class="stag stf">MINI GAME</span><div class="sline"></div></div>
+      <div class="cards-grid" id="home-f"></div>
+    </div>
+    <div class="cat-sec">
+      <div class="cat-st">🏆 이상형 월드컵 <span class="stag stw">TOURNAMENT</span><div class="sline"></div></div>
+      <div class="cards-grid" id="home-w"></div>
+    </div>
   </div>
 </div>
 
-<!-- ────────────── BALANCE PAGE ────────────── -->
-<div id="page-balance" style="display:none;padding-top:80px;">
-  <div class="section visible">
-    <div class="section-header">
-      <div class="section-icon">⚖️</div>
-      <div>
-        <div class="section-title">밸런스 게임</div>
-        <div class="section-desc">둘 중 하나를 선택해야 한다면?</div>
-      </div>
+<!-- BALANCE PAGE -->
+<div id="page-balance" class="page">
+  <div class="pi">
+    <div class="sec-hd"><div class="sec-ic">⚖️</div><div><div class="sec-ti">밸런스 게임</div><div class="sec-de">둘 중 하나를 선택해야 한다면?</div></div></div>
+    <div id="bal-sel">
+      <p style="font-size:11px;color:var(--mt);margin-bottom:11px;">주제를 선택하세요</p>
+      <div class="topic-sel" id="bal-topics"></div>
     </div>
-
-    <div id="balance-topic-select">
-      <p style="font-size:14px;color:var(--muted);margin-bottom:16px;">주제를 선택하세요</p>
-      <div class="topic-selector" id="balance-topics"></div>
-    </div>
-
-    <div id="balance-play-area" style="display:none;">
-      <div class="balance-game-area">
-        <div class="bg-progress">
-          <div class="progress-bar"><div class="progress-fill" id="bg-progress-fill" style="width:0%"></div></div>
-          <span class="progress-text" id="bg-progress-text">0 / 0</span>
+    <div id="bal-play" style="display:none;">
+      <div class="bg-area">
+        <div class="bg-prog"><div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div><span class="prog-t" id="prog-t">0 / 0</span></div>
+        <div class="bg-q" id="bg-q"></div>
+        <div class="bg-ch">
+          <div class="bg-c" id="bg-ca" onclick="pickBal('a')"></div>
+          <div class="vs-b">VS</div>
+          <div class="bg-c" id="bg-cb" onclick="pickBal('b')"></div>
         </div>
-        <div class="bg-question" id="bg-question"></div>
-        <div class="bg-choices">
-          <div class="bg-choice" id="bg-choice-a" onclick="pickBalance('a')"></div>
-          <div class="vs-badge">VS</div>
-          <div class="bg-choice" id="bg-choice-b" onclick="pickBalance('b')"></div>
+        <div class="bg-res" id="bg-res">
+          <p style="font-size:10px;color:var(--mt);margin-bottom:7px;text-align:center;">📊 다른 사람들은?</p>
+          <div class="rb-wrap"><div class="rb-lbl"><span id="rl-a"></span><span id="rp-a"></span></div><div class="rb"><div class="rb-f fa" id="rb-a" style="width:0%"></div></div></div>
+          <div class="rb-wrap"><div class="rb-lbl"><span id="rl-b"></span><span id="rp-b"></span></div><div class="rb"><div class="rb-f fb" id="rb-b" style="width:0%"></div></div></div>
         </div>
-        <div class="bg-result" id="bg-result">
-          <p style="font-size:13px;color:var(--muted);margin-bottom:12px;text-align:center;">📊 다른 사람들은?</p>
-          <div class="result-bar-wrap">
-            <div class="result-bar-label"><span id="res-label-a"></span><span id="res-pct-a"></span></div>
-            <div class="result-bar"><div class="result-bar-fill fill-a" id="res-bar-a"></div></div>
-          </div>
-          <div class="result-bar-wrap" style="margin-top:10px;">
-            <div class="result-bar-label"><span id="res-label-b"></span><span id="res-pct-b"></span></div>
-            <div class="result-bar"><div class="result-bar-fill fill-b" id="res-bar-b"></div></div>
-          </div>
-        </div>
-        <div class="bg-controls">
-          <button class="btn btn-outline" id="btn-skip" onclick="nextBalance()">건너뛰기 ⏭</button>
-          <button class="btn btn-primary" id="btn-next" onclick="nextBalance()" style="display:none;">다음 문제 →</button>
-          <button class="btn btn-outline" onclick="backToBalanceTopics()">← 주제 변경</button>
+        <div class="bg-ctrl">
+          <button class="btn btn-o" id="btn-sk" onclick="nextBal()">건너뛰기 ⏭</button>
+          <button class="btn btn-p" id="btn-nx" onclick="nextBal()" style="display:none;">다음 문제 →</button>
+          <button class="btn btn-o" onclick="backBal()">← 주제 변경</button>
         </div>
       </div>
-
-      <div class="download-strip">
-        <div class="download-info">
-          <strong>📥 밸런스 게임 다운로드</strong><br>
-          <span style="color:var(--muted);font-size:13px;">현재 주제의 질문 목록을 HTML 파일로 저장해서 오프라인에서도 즐기세요!</span>
-        </div>
-        <button class="btn btn-success" onclick="downloadBalanceGame()">⬇️ 다운로드 (.html)</button>
+      <div class="dl-strip">
+        <div class="dl-info"><strong>📥 밸런스 게임 다운로드</strong><br><span style="font-size:10px;">질문 목록을 HTML 파일로 저장!</span></div>
+        <button class="btn btn-s" onclick="downloadBal()">⬇️ 다운로드</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ────────────── FLASH PAGE ────────────── -->
-<div id="page-flash" style="display:none;padding-top:80px;">
-  <div class="section visible">
-    <div class="section-header">
-      <div class="section-icon">⚡</div>
-      <div>
-        <div class="section-title">플래시 게임</div>
-        <div class="section-desc">간단하고 중독성 있는 미니게임</div>
-      </div>
-    </div>
-    <div class="cards-grid" id="flash-game-list"></div>
-    <div id="flash-play-area" style="display:none;margin-top:24px;">
-      <div style="margin-bottom:16px;display:flex;align-items:center;gap:12px;">
-        <button class="btn btn-outline" onclick="closeFlashGame()">← 목록으로</button>
-        <span id="flash-game-title" style="font-weight:700;font-size:18px;"></span>
+<!-- FLASH PAGE -->
+<div id="page-flash" class="page">
+  <div class="pi">
+    <div class="sec-hd"><div class="sec-ic">⚡</div><div><div class="sec-ti">플래시 게임</div><div class="sec-de">간단하고 중독성 있는 미니게임</div></div></div>
+    <div class="cards-grid" id="flash-list"></div>
+    <div id="flash-play" style="display:none;margin-top:16px;">
+      <div style="margin-bottom:11px;display:flex;align-items:center;gap:8px;">
+        <button class="btn btn-o" onclick="closeFlash()">← 목록으로</button>
+        <span id="flash-ti" style="font-weight:700;font-size:15px;color:var(--tx);"></span>
       </div>
       <div class="flash-area">
-        <div class="flash-score">점수: <span id="flash-score">0</span></div>
-        <div class="flash-canvas-wrap">
-          <canvas id="game-canvas" width="600" height="450"></canvas>
-        </div>
-        <div class="flash-instructions" id="flash-instructions"></div>
-        <div style="display:flex;gap:12px;">
-          <button class="btn btn-primary" id="flash-start-btn" onclick="startCurrentFlashGame()">▶ 시작</button>
-          <button class="btn btn-outline" onclick="restartFlashGame()">🔄 재시작</button>
+        <div class="flash-sc">점수: <span id="flash-sc">0</span></div>
+        <div class="canvas-wrap"><canvas id="game-cv" width="600" height="450"></canvas></div>
+        <div class="flash-inst" id="flash-inst"></div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-p" id="flash-start-btn">▶ 시작</button>
+          <button class="btn btn-o" onclick="restartFlash()">🔄 재시작</button>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ────────────── WORLDCUP PAGE ────────────── -->
-<div id="page-worldcup" style="display:none;padding-top:80px;">
-  <div class="section visible">
-    <div class="section-header">
-      <div class="section-icon">🏆</div>
-      <div>
-        <div class="section-title">이상형 월드컵</div>
-        <div class="section-desc">토너먼트 방식으로 최강자를 가려보세요</div>
-      </div>
+<!-- WORLDCUP PAGE -->
+<div id="page-worldcup" class="page">
+  <div class="pi">
+    <div class="sec-hd"><div class="sec-ic">🏆</div><div><div class="sec-ti">이상형 월드컵</div><div class="sec-de">토너먼트 방식으로 최강자를 가려보세요</div></div></div>
+    <div id="wc-sel">
+      <p style="font-size:11px;color:var(--mt);margin-bottom:11px;">주제를 선택하세요</p>
+      <div class="topic-sel" id="wc-topics"></div>
     </div>
-    <div id="wc-topic-select">
-      <p style="font-size:14px;color:var(--muted);margin-bottom:16px;">주제를 선택하세요</p>
-      <div class="topic-selector" id="wc-topics"></div>
-    </div>
-    <div id="wc-play-area" style="display:none;">
+    <div id="wc-play" style="display:none;">
       <div class="wc-area">
-        <div class="wc-stage"><span class="wc-stage-label" id="wc-stage-label"></span></div>
-        <div class="wc-matchup">
-          <div class="wc-item" id="wc-item-a" onclick="pickWC('a')">
-            <span class="wc-emoji" id="wc-emoji-a"></span>
-            <div class="wc-name" id="wc-name-a"></div>
-          </div>
-          <div class="vs-badge">VS</div>
-          <div class="wc-item" id="wc-item-b" onclick="pickWC('b')">
-            <span class="wc-emoji" id="wc-emoji-b"></span>
-            <div class="wc-name" id="wc-name-b"></div>
-          </div>
+        <div class="wc-stg"><span class="wc-slbl" id="wc-slbl"></span></div>
+        <div class="wc-mu">
+          <div class="wc-it" id="wc-a" onclick="pickWC('a')"><span class="wc-em" id="wc-ea"></span><div class="wc-nm" id="wc-na"></div></div>
+          <div class="vs-b">VS</div>
+          <div class="wc-it" id="wc-b" onclick="pickWC('b')"><span class="wc-em" id="wc-eb"></span><div class="wc-nm" id="wc-nb"></div></div>
         </div>
-        <div style="text-align:center;margin-top:20px;">
-          <button class="btn btn-outline" onclick="backToWCTopics()">← 주제 변경</button>
-        </div>
+        <div style="text-align:center;margin-top:14px;"><button class="btn btn-o" onclick="backWC()">← 주제 변경</button></div>
       </div>
-      <div id="wc-bracket-area" style="display:none;margin-top:24px;">
+      <div id="wc-res" style="display:none;margin-top:16px;">
         <div class="wc-area">
-          <p style="font-size:20px;font-weight:700;text-align:center;margin-bottom:20px;">🎉 최종 결과!</p>
-          <div class="wc-bracket" id="wc-bracket-list"></div>
-          <div style="text-align:center;margin-top:20px;">
-            <button class="btn btn-primary" onclick="restartWC()">🔄 다시 하기</button>
-            <button class="btn btn-outline" onclick="backToWCTopics()" style="margin-left:10px;">← 주제 변경</button>
+          <p style="font-size:17px;font-weight:700;text-align:center;margin-bottom:14px;">🎉 최종 결과!</p>
+          <div class="wc-br" id="wc-br"></div>
+          <div style="text-align:center;margin-top:14px;">
+            <button class="btn btn-p" onclick="restartWC()">🔄 다시 하기</button>
+            <button class="btn btn-o" onclick="backWC()" style="margin-left:6px;">← 주제 변경</button>
           </div>
         </div>
       </div>
@@ -574,718 +316,293 @@
   </div>
 </div>
 
-<!-- MODAL -->
-<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModalDirect()">×</button>
-    <div class="modal-title" id="modal-title"></div>
-    <div id="modal-body"></div>
-  </div>
+<div class="modal-ov" id="modal-ov" onclick="if(event.target===this)closeModal()">
+  <div class="modal"><button class="modal-cl" onclick="closeModal()">×</button><div class="modal-ti" id="modal-ti"></div><div id="modal-bd"></div></div>
 </div>
 
 <script>
-/* ===================== DATA ===================== */
-const balanceTopics = [
-  {
-    id:'food', name:'음식', emoji:'🍔', count:8,
-    color:'#ff4d6d',
-    questions:[
-      {q:'치킨 VS 피자',a:'치킨',b:'피자',ratioA:62},
-      {q:'짜장면 VS 짬뽕',a:'짜장면',b:'짬뽕',ratioA:55},
-      {q:'탕수육 부먹 VS 찍먹',a:'부먹',b:'찍먹',ratioA:48},
-      {q:'라면 VS 떡볶이',a:'라면',b:'떡볶이',ratioA:51},
-      {q:'삼겹살 VS 소고기',a:'삼겹살',b:'소고기',ratioA:58},
-      {q:'냉면 VS 국수',a:'냉면',b:'국수',ratioA:53},
-      {q:'초밥 VS 회덮밥',a:'초밥',b:'회덮밥',ratioA:60},
-      {q:'곱창 VS 대창',a:'곱창',b:'대창',ratioA:57},
-    ]
-  },
-  {
-    id:'life', name:'인생선택', emoji:'🤔', count:8,
-    color:'#7b5ea7',
-    questions:[
-      {q:'기억을 잃지만 행복하게 사는 삶 VS 기억이 있지만 불행한 삶',a:'기억상실+행복',b:'기억있음+불행',ratioA:71},
-      {q:'평생 여름 VS 평생 겨울',a:'평생 여름',b:'평생 겨울',ratioA:44},
-      {q:'날 수 있는 능력 VS 투명인간 능력',a:'날 수 있는 능력',b:'투명인간',ratioA:56},
-      {q:'평생 아이돌 몸매 VS 평생 천재 두뇌',a:'아이돌 몸매',b:'천재 두뇌',ratioA:38},
-      {q:'10년 후로 타임워프 VS 10년 전으로 타임워프',a:'10년 후',b:'10년 전',ratioA:49},
-      {q:'평생 잠을 3시간만 자도 되는 몸 VS 평생 잠을 10시간 자야하는 몸',a:'3시간 수면',b:'10시간 수면',ratioA:68},
-      {q:'SNS 없는 세상 VS 스마트폰 없는 세상',a:'SNS 없는 세상',b:'스마트폰 없는 세상',ratioA:53},
-      {q:'내 생각을 남이 읽을 수 있는 대신 연봉 3억 VS 평범한 삶',a:'연봉 3억',b:'평범한 삶',ratioA:61},
-    ]
-  },
-  {
-    id:'travel', name:'여행', emoji:'✈️', count:6,
-    color:'#00d4aa',
-    questions:[
-      {q:'파리 VS 뉴욕',a:'파리',b:'뉴욕',ratioA:54},
-      {q:'바다 여행 VS 산 여행',a:'바다',b:'산',ratioA:63},
-      {q:'럭셔리 호텔 VS 배낭여행',a:'럭셔리 호텔',b:'배낭여행',ratioA:47},
-      {q:'유럽 한 달 여행 VS 동남아 세 달 여행',a:'유럽 한 달',b:'동남아 세 달',ratioA:52},
-      {q:'혼자 여행 VS 친구와 여행',a:'혼자',b:'친구와',ratioA:43},
-      {q:'국내 여행 VS 해외 여행',a:'국내',b:'해외',ratioA:35},
-    ]
-  },
-  {
-    id:'animal', name:'동물', emoji:'🐾', count:6,
-    color:'#ffd166',
-    questions:[
-      {q:'강아지 VS 고양이',a:'강아지',b:'고양이',ratioA:58},
-      {q:'앵무새 VS 햄스터',a:'앵무새',b:'햄스터',ratioA:44},
-      {q:'토끼 VS 거북이',a:'토끼',b:'거북이',ratioA:67},
-      {q:'돌고래 VS 범고래',a:'돌고래',b:'범고래',ratioA:53},
-      {q:'사자 VS 호랑이',a:'사자',b:'호랑이',ratioA:49},
-      {q:'독수리 VS 올빼미',a:'독수리',b:'올빼미',ratioA:47},
-    ]
-  },
+/* DATA */
+const balanceTopics=[
+  {id:'food',name:'음식',emoji:'🍔',desc:'치킨 vs 피자? 짜장 vs 짬뽕? 최후의 선택!',color:'#ff4d6d',count:8,questions:[
+    {q:'치킨 VS 피자',a:'치킨',b:'피자',ra:62},{q:'짜장면 VS 짬뽕',a:'짜장면',b:'짬뽕',ra:55},
+    {q:'탕수육 부먹 VS 찍먹',a:'부먹',b:'찍먹',ra:48},{q:'라면 VS 떡볶이',a:'라면',b:'떡볶이',ra:51},
+    {q:'삼겹살 VS 소고기',a:'삼겹살',b:'소고기',ra:58},{q:'냉면 VS 국수',a:'냉면',b:'국수',ra:53},
+    {q:'초밥 VS 회덮밥',a:'초밥',b:'회덮밥',ra:60},{q:'곱창 VS 대창',a:'곱창',b:'대창',ra:57}]},
+  {id:'life',name:'인생선택',emoji:'🤔',desc:'인생을 바꾸는 어려운 선택들!',color:'#7b5ea7',count:8,questions:[
+    {q:'기억을 잃지만 행복하게 사는 삶 VS 기억이 있지만 불행한 삶',a:'기억상실+행복',b:'기억있음+불행',ra:71},
+    {q:'평생 여름 VS 평생 겨울',a:'평생 여름',b:'평생 겨울',ra:44},
+    {q:'날 수 있는 능력 VS 투명인간 능력',a:'날 수 있는 능력',b:'투명인간',ra:56},
+    {q:'평생 아이돌 몸매 VS 평생 천재 두뇌',a:'아이돌 몸매',b:'천재 두뇌',ra:38},
+    {q:'10년 후로 타임워프 VS 10년 전으로 타임워프',a:'10년 후',b:'10년 전',ra:49},
+    {q:'평생 잠을 3시간만 자도 되는 몸 VS 10시간 자야하는 몸',a:'3시간 수면',b:'10시간 수면',ra:68},
+    {q:'SNS 없는 세상 VS 스마트폰 없는 세상',a:'SNS 없는 세상',b:'스마트폰 없는 세상',ra:53},
+    {q:'내 생각을 남이 읽을 수 있는 대신 연봉 3억 VS 평범한 삶',a:'연봉 3억',b:'평범한 삶',ra:61}]},
+  {id:'travel',name:'여행',emoji:'✈️',desc:'어디로 떠날까? 나의 여행 스타일은?',color:'#00d4aa',count:6,questions:[
+    {q:'파리 VS 뉴욕',a:'파리',b:'뉴욕',ra:54},{q:'바다 여행 VS 산 여행',a:'바다',b:'산',ra:63},
+    {q:'럭셔리 호텔 VS 배낭여행',a:'럭셔리 호텔',b:'배낭여행',ra:47},{q:'유럽 한 달 여행 VS 동남아 세 달 여행',a:'유럽 한 달',b:'동남아 세 달',ra:52},
+    {q:'혼자 여행 VS 친구와 여행',a:'혼자',b:'친구와',ra:43},{q:'국내 여행 VS 해외 여행',a:'국내',b:'해외',ra:35}]},
+  {id:'animal',name:'동물',emoji:'🐾',desc:'귀여운 동물들 중 나의 최애는?',color:'#ffd166',count:6,questions:[
+    {q:'강아지 VS 고양이',a:'강아지',b:'고양이',ra:58},{q:'앵무새 VS 햄스터',a:'앵무새',b:'햄스터',ra:44},
+    {q:'토끼 VS 거북이',a:'토끼',b:'거북이',ra:67},{q:'돌고래 VS 범고래',a:'돌고래',b:'범고래',ra:53},
+    {q:'사자 VS 호랑이',a:'사자',b:'호랑이',ra:49},{q:'독수리 VS 올빼미',a:'독수리',b:'올빼미',ra:47}]}
 ];
 
-const flashGames = [
-  {
-    id:'clicker', name:'두더지 잡기', emoji:'🦔',
-    desc:'화면에 나타나는 두더지를 클릭하세요!',
-    color:'#ff4d6d',
-    instructions:'두더지가 나타나면 빠르게 클릭! 시간 안에 최대한 많이 잡아보세요 🦔',
-    badge:'hot'
-  },
-  {
-    id:'dodge', name:'피하기 게임', emoji:'🚀',
-    desc:'장애물을 피해 최대한 오래 살아남아라!',
-    color:'#7b5ea7',
-    instructions:'마우스 또는 터치로 캐릭터를 움직여 빨간 장애물을 피하세요 🚀',
-    badge:'new'
-  },
-  {
-    id:'memory', name:'기억력 게임', emoji:'🧠',
-    desc:'카드 패턴을 기억하고 맞춰보세요!',
-    color:'#00d4aa',
-    instructions:'잠깐 보여주는 카드 패턴을 기억해서 같은 순서로 클릭하세요 🧠',
-    badge:'classic'
-  },
+const flashGames=[
+  {id:'clicker',name:'두더지 잡기',emoji:'🦔',desc:'두더지가 나타나면 빠르게 클릭! 30초 승부',color:'#ff4d6d',inst:'두더지가 나타나면 빠르게 클릭! 30초 안에 최대한 많이 잡아보세요 🦔',badge:'hot',coming:false},
+  {id:'dodge',name:'피하기 게임',emoji:'🚀',desc:'장애물을 피해 최대한 오래 살아남아라!',color:'#7b5ea7',inst:'마우스/터치로 캐릭터를 움직여 빨간 장애물을 피하세요 🚀',badge:'new',coming:false},
+  {id:'memory',name:'기억력 게임',emoji:'🧠',desc:'카드 패턴을 기억하고 같은 순서로 클릭!',color:'#00d4aa',inst:'잠깐 보여주는 카드 패턴을 기억해서 같은 순서로 클릭하세요 🧠',badge:'classic',coming:false},
+  {id:'typing',name:'타이핑 레이스',emoji:'⌨️',desc:'빠르게 타이핑해서 단어를 처리하세요!',color:'#4ecdc4',inst:'',badge:'soon',coming:true},
+  {id:'quiz',name:'스피드 퀴즈',emoji:'❓',desc:'10초 안에 답을 골라라! 상식 퀴즈 대결',color:'#ff6b6b',inst:'',badge:'soon',coming:true},
+  {id:'tetris',name:'블록 쌓기',emoji:'🟦',desc:'떨어지는 블록을 쌓아 줄을 완성하세요',color:'#45b7d1',inst:'',badge:'soon',coming:true},
+  {id:'snake',name:'뱀 게임',emoji:'🐍',desc:'먹이를 먹고 몸을 키워라! 벽에 주의',color:'#96ceb4',inst:'',badge:'soon',coming:true},
+  {id:'reaction',name:'반응속도 테스트',emoji:'⚡',desc:'화면이 바뀌는 순간 클릭! 반응속도 측정',color:'#ffd166',inst:'',badge:'soon',coming:true},
+  {id:'numguess',name:'숫자 맞히기',emoji:'🎯',desc:'1~100 사이 숫자를 최소 시도로 맞혀라',color:'#dda0dd',inst:'',badge:'soon',coming:true},
+  {id:'word',name:'끝말잇기',emoji:'💬',desc:'단어를 이어가며 상대방을 막아라!',color:'#f0a500',inst:'',badge:'soon',coming:true}
 ];
 
-const wcTopics = [
-  {
-    id:'food', name:'최애 음식', emoji:'🍕',
-    items:[
-      {name:'치킨',emoji:'🍗'},{name:'피자',emoji:'🍕'},{name:'짜장면',emoji:'🍜'},
-      {name:'삼겹살',emoji:'🥓'},{name:'라면',emoji:'🍜'},{name:'떡볶이',emoji:'🌶️'},
-      {name:'초밥',emoji:'🍣'},{name:'삼계탕',emoji:'🍲'},
-    ]
-  },
-  {
-    id:'travel', name:'여행지', emoji:'🌍',
-    items:[
-      {name:'파리',emoji:'🗼'},{name:'뉴욕',emoji:'🗽'},{name:'도쿄',emoji:'⛩️'},
-      {name:'방콕',emoji:'🏯'},{name:'발리',emoji:'🌴'},{name:'로마',emoji:'🏛️'},
-      {name:'바르셀로나',emoji:'🎭'},{name:'제주도',emoji:'🌺'},
-    ]
-  },
-  {
-    id:'season', name:'계절 & 날씨', emoji:'🌈',
-    items:[
-      {name:'봄 벚꽃',emoji:'🌸'},{name:'여름 바다',emoji:'🏖️'},{name:'가을 단풍',emoji:'🍁'},
-      {name:'겨울 눈',emoji:'❄️'},{name:'비 오는 날',emoji:'🌧️'},{name:'맑은 파란 하늘',emoji:'☀️'},
-      {name:'무지개 뜨는 날',emoji:'🌈'},{name:'노을 지는 저녁',emoji:'🌅'},
-    ]
-  },
-  {
-    id:'hobby', name:'취미 활동', emoji:'🎨',
-    items:[
-      {name:'게임',emoji:'🎮'},{name:'독서',emoji:'📚'},{name:'요리',emoji:'👨‍🍳'},
-      {name:'운동',emoji:'💪'},{name:'그림그리기',emoji:'🎨'},{name:'여행',emoji:'✈️'},
-      {name:'음악감상',emoji:'🎵'},{name:'영화감상',emoji:'🎬'},
-    ]
-  },
+const wcTopics=[
+  {id:'food',name:'최애 음식',emoji:'🍕',desc:'치킨? 피자? 최강의 음식은?',color:'#ff4d6d',
+   items:[{n:'치킨',e:'🍗'},{n:'피자',e:'🍕'},{n:'짜장면',e:'🍜'},{n:'삼겹살',e:'🥓'},{n:'라면',e:'🍜'},{n:'떡볶이',e:'🌶️'},{n:'초밥',e:'🍣'},{n:'삼계탕',e:'🍲'}]},
+  {id:'travel',name:'여행지',emoji:'🌍',desc:'내 이상형 여행지를 찾아라!',color:'#00d4aa',
+   items:[{n:'파리',e:'🗼'},{n:'뉴욕',e:'🗽'},{n:'도쿄',e:'⛩️'},{n:'방콕',e:'🏯'},{n:'발리',e:'🌴'},{n:'로마',e:'🏛️'},{n:'바르셀로나',e:'🎭'},{n:'제주도',e:'🌺'}]},
+  {id:'season',name:'계절 & 날씨',emoji:'🌈',desc:'가장 좋아하는 날씨는?',color:'#7b5ea7',
+   items:[{n:'봄 벚꽃',e:'🌸'},{n:'여름 바다',e:'🏖️'},{n:'가을 단풍',e:'🍁'},{n:'겨울 눈',e:'❄️'},{n:'비 오는 날',e:'🌧️'},{n:'맑은 파란 하늘',e:'☀️'},{n:'무지개 뜨는 날',e:'🌈'},{n:'노을 지는 저녁',e:'🌅'}]},
+  {id:'hobby',name:'취미 활동',emoji:'🎨',desc:'나의 최고 취미 활동은?',color:'#ffd166',
+   items:[{n:'게임',e:'🎮'},{n:'독서',e:'📚'},{n:'요리',e:'👨‍🍳'},{n:'운동',e:'💪'},{n:'그림그리기',e:'🎨'},{n:'여행',e:'✈️'},{n:'음악감상',e:'🎵'},{n:'영화감상',e:'🎬'}]}
 ];
 
-/* ===================== STATE ===================== */
-let currentBalanceTopic = null;
-let bgIdx = 0;
-let bgPicked = false;
+/* STATE */
+let curBal=null,balIdx=0,balPicked=false;
+let curFlash=null,flashLoop=null,flashScore=0;
+let wcT=null,wcRound=[],wcNext=[],wcPair=0,wcElim=[];
 
-let currentFlashGame = null;
-let flashGameLoop = null;
-let flashScore = 0;
+/* THEME */
+function toggleTheme(){const h=document.documentElement;h.setAttribute('data-theme',h.getAttribute('data-theme')==='dark'?'light':'dark');}
 
-let wcTopic = null;
-let wcRound = [];
-let wcNextRound = [];
-let wcCurrentPair = 0;
-let wcEliminated = [];
-
-/* ===================== NAV ===================== */
-const pages = ['home','balance','flash','worldcup'];
-function showPage(name){
-  pages.forEach(p=>{
-    document.getElementById('page-'+p).style.display='none';
-  });
-  document.getElementById('page-'+name).style.display='block';
-  document.querySelectorAll('.nav-tab').forEach((t,i)=>{
-    t.classList.remove('active');
-    if(pages[i]===name)t.classList.add('active');
-  });
+/* NAV */
+const pages=['home','balance','flash','worldcup'];
+function showPage(n){
+  pages.forEach(p=>{const e=document.getElementById('page-'+p);e.classList.remove('visible');e.style.display='none';});
+  const pg=document.getElementById('page-'+n);pg.style.display='block';
+  requestAnimationFrame(()=>pg.classList.add('visible'));
+  document.querySelectorAll('.nav-tab').forEach((t,i)=>t.classList.toggle('active',pages[i]===n));
   window.scrollTo({top:0,behavior:'smooth'});
-  if(name==='home')renderHomeCards();
+  if(n==='home')renderHome();
 }
 
-/* ===================== HOME CARDS ===================== */
-function renderHomeCards(){
-  // balance
-  const bc = document.getElementById('home-balance-cards');
-  bc.innerHTML = balanceTopics.map(t=>`
-    <div class="game-card" onclick="showPage('balance');startBalanceTopic('${t.id}')">
-      <div class="thumb" style="background:linear-gradient(135deg,${t.color}22,${t.color}44)">
-        <span style="font-size:64px">${t.emoji}</span>
-      </div>
-      <div class="card-body">
-        <div class="card-title">${t.emoji} ${t.name} 밸런스 게임</div>
-        <div class="card-meta"><span class="badge badge-hot">HOT</span> ${t.count}문제</div>
-      </div>
+/* CARD BUILDER */
+function mkCard({emoji,color,title,desc,badge,meta,onclick,coming=false}){
+  const ov=coming?`<div class="card-coming">🔒 준비중</div>`:`<div class="play-btn">▶</div>`;
+  const cl=coming?`style="cursor:default;opacity:.72"`:'';
+  const oc=coming?'':`onclick="${onclick}"`;
+  const badgeClass={hot:'bh',new:'bn',classic:'bc',soon:'bs'}[badge]||'bs';
+  const badgeText=badge==='soon'?'준비중':badge.toUpperCase();
+  return `<div class="game-card" ${oc} ${cl}>${ov}
+    <div class="thumb" style="background:linear-gradient(135deg,${color}44,${color}90)">
+      <div class="t-emoji">${emoji}</div><div class="t-label">${title}</div>
     </div>
-  `).join('');
-
-  // flash
-  const fc = document.getElementById('home-flash-cards');
-  fc.innerHTML = flashGames.map(g=>`
-    <div class="game-card" onclick="showPage('flash');openFlashGame('${g.id}')">
-      <div class="thumb" style="background:linear-gradient(135deg,${g.color}22,${g.color}44)">
-        <span style="font-size:64px">${g.emoji}</span>
-      </div>
-      <div class="card-body">
-        <div class="card-title">${g.emoji} ${g.name}</div>
-        <div class="card-meta"><span class="badge badge-${g.badge}">${g.badge.toUpperCase()}</span> ${g.desc}</div>
-      </div>
-    </div>
-  `).join('');
-
-  // worldcup
-  const wc = document.getElementById('home-wc-cards');
-  wc.innerHTML = wcTopics.map(t=>`
-    <div class="game-card" onclick="showPage('worldcup');startWCTopic('${t.id}')">
-      <div class="thumb" style="background:linear-gradient(135deg,#00d4aa22,#00d4aa44)">
-        <span style="font-size:64px">${t.emoji}</span>
-      </div>
-      <div class="card-body">
-        <div class="card-title">${t.emoji} ${t.name} 월드컵</div>
-        <div class="card-meta"><span class="badge badge-new">NEW</span> ${t.items.length}강</div>
-      </div>
-    </div>
-  `).join('');
-}
-renderHomeCards();
-
-/* ===================== BALANCE GAME ===================== */
-function renderBalanceTopics(){
-  const el = document.getElementById('balance-topics');
-  el.innerHTML = balanceTopics.map(t=>`
-    <div class="topic-card" onclick="startBalanceTopic('${t.id}')">
-      <span class="topic-emoji">${t.emoji}</span>
-      <div><div class="topic-name">${t.name}</div><div class="topic-count">${t.count}문제</div></div>
-    </div>
-  `).join('');
-}
-renderBalanceTopics();
-
-function startBalanceTopic(id){
-  currentBalanceTopic = balanceTopics.find(t=>t.id===id);
-  bgIdx = 0;
-  bgPicked = false;
-  document.getElementById('balance-topic-select').style.display='none';
-  document.getElementById('balance-play-area').style.display='block';
-  renderBalanceQuestion();
+    <div class="card-body">
+      <div class="card-ti">${title}</div>
+      <div class="card-de">${desc}</div>
+      <div class="card-ft"><span class="badge ${badgeClass}">${badgeText}</span><span class="card-me">${meta}</span></div>
+    </div></div>`;
 }
 
-function renderBalanceQuestion(){
-  const q = currentBalanceTopic.questions[bgIdx];
-  const total = currentBalanceTopic.questions.length;
-  document.getElementById('bg-progress-fill').style.width=((bgIdx/total)*100)+'%';
-  document.getElementById('bg-progress-text').textContent=`${bgIdx+1} / ${total}`;
-  document.getElementById('bg-question').textContent=q.q;
-  document.getElementById('bg-choice-a').textContent=q.a;
-  document.getElementById('bg-choice-b').textContent=q.b;
-  document.getElementById('bg-choice-a').className='bg-choice';
-  document.getElementById('bg-choice-b').className='bg-choice';
-  document.getElementById('bg-result').classList.remove('show');
-  document.getElementById('btn-skip').style.display='inline-flex';
-  document.getElementById('btn-next').style.display='none';
-  bgPicked=false;
+/* HOME */
+function renderHome(){
+  document.getElementById('home-b').innerHTML=balanceTopics.map(t=>mkCard({emoji:t.emoji,color:t.color,title:t.name+' 밸런스',desc:t.desc,badge:'hot',meta:t.count+'문제',onclick:`showPage('balance');startBal('${t.id}')`})).join('');
+  document.getElementById('home-f').innerHTML=flashGames.map(g=>mkCard({emoji:g.emoji,color:g.color,title:g.name,desc:g.desc,badge:g.badge,meta:g.coming?'준비중':'미니게임',onclick:`showPage('flash');openFlash('${g.id}')`,coming:g.coming})).join('');
+  document.getElementById('home-w').innerHTML=wcTopics.map(t=>mkCard({emoji:t.emoji,color:t.color||'#00d4aa',title:t.name+' 월드컵',desc:t.desc,badge:'new',meta:t.items.length+'강',onclick:`showPage('worldcup');startWCT('${t.id}')`})).join('');
 }
 
-function pickBalance(side){
-  if(bgPicked)return;
-  bgPicked=true;
-  const q=currentBalanceTopic.questions[bgIdx];
-  if(side==='a') document.getElementById('bg-choice-a').classList.add('selected-a');
-  else document.getElementById('bg-choice-b').classList.add('selected-b');
-  // show result
-  const ra = q.ratioA + Math.floor(Math.random()*5-2);
-  const rb = 100-ra;
-  document.getElementById('res-label-a').textContent=q.a;
-  document.getElementById('res-label-b').textContent=q.b;
-  document.getElementById('res-pct-a').textContent=ra+'%';
-  document.getElementById('res-pct-b').textContent=rb+'%';
-  setTimeout(()=>{
-    document.getElementById('res-bar-a').style.width=ra+'%';
-    document.getElementById('res-bar-b').style.width=rb+'%';
-  },100);
-  document.getElementById('bg-result').classList.add('show');
-  document.getElementById('btn-skip').style.display='none';
-  document.getElementById('btn-next').style.display='inline-flex';
-  const lastIdx = currentBalanceTopic.questions.length-1;
-  if(bgIdx===lastIdx) document.getElementById('btn-next').textContent='결과 보기 🎉';
+/* BALANCE */
+function renderBalTopics(){
+  document.getElementById('bal-topics').innerHTML=balanceTopics.map(t=>`
+    <div class="topic-c" onclick="startBal('${t.id}')">
+      <span class="tc-em">${t.emoji}</span>
+      <div><div class="tc-n">${t.name}</div><div class="tc-c">${t.count}문제</div></div>
+    </div>`).join('');
+}
+renderBalTopics();
+
+/* ★ 핵심 수정: 홈에서 카드 클릭 → showPage('balance') 먼저 → startBal() 호출
+   startBal() 내부에서는 무조건 주제선택 숨기고 플레이 영역 표시 */
+function startBal(id){
+  curBal=balanceTopics.find(t=>t.id===id);
+  balIdx=0; balPicked=false;
+  document.getElementById('bal-sel').style.display='none';
+  document.getElementById('bal-play').style.display='block';
+  renderBalQ();
+}
+function renderBalQ(){
+  const q=curBal.questions[balIdx];const tot=curBal.questions.length;
+  document.getElementById('prog-fill').style.width=(balIdx/tot*100)+'%';
+  document.getElementById('prog-t').textContent=(balIdx+1)+' / '+tot;
+  document.getElementById('bg-q').textContent=q.q;
+  document.getElementById('bg-ca').textContent=q.a;
+  document.getElementById('bg-cb').textContent=q.b;
+  document.getElementById('bg-ca').className='bg-c';
+  document.getElementById('bg-cb').className='bg-c';
+  document.getElementById('bg-res').classList.remove('show');
+  document.getElementById('rb-a').style.width='0%';
+  document.getElementById('rb-b').style.width='0%';
+  document.getElementById('btn-sk').style.display='inline-flex';
+  document.getElementById('btn-nx').style.display='none';
+  document.getElementById('btn-nx').textContent='다음 문제 →';
+  balPicked=false;
+}
+function pickBal(s){
+  if(balPicked)return; balPicked=true;
+  const q=curBal.questions[balIdx];
+  if(s==='a') document.getElementById('bg-ca').classList.add('sa');
+  else document.getElementById('bg-cb').classList.add('sb');
+  const ra=Math.min(98,Math.max(2,q.ra+Math.floor(Math.random()*5-2)));
+  const rb=100-ra;
+  document.getElementById('rl-a').textContent=q.a; document.getElementById('rl-b').textContent=q.b;
+  document.getElementById('rp-a').textContent=ra+'%'; document.getElementById('rp-b').textContent=rb+'%';
+  setTimeout(()=>{document.getElementById('rb-a').style.width=ra+'%';document.getElementById('rb-b').style.width=rb+'%';},80);
+  document.getElementById('bg-res').classList.add('show');
+  document.getElementById('btn-sk').style.display='none';
+  document.getElementById('btn-nx').style.display='inline-flex';
+  if(balIdx===curBal.questions.length-1) document.getElementById('btn-nx').textContent='결과 보기 🎉';
+}
+function nextBal(){
+  if(balIdx>=curBal.questions.length-1){alert('모든 문제를 완료했습니다! 🎉');balIdx=0;renderBalQ();return;}
+  balIdx++;renderBalQ();
+}
+function backBal(){
+  document.getElementById('bal-sel').style.display='block';
+  document.getElementById('bal-play').style.display='none';
+}
+function downloadBal(){
+  if(!curBal){alert('먼저 주제를 선택하세요!');return;}
+  const t=curBal;
+  const qs=t.questions.map((q,i)=>`<div class="qcard"><div class="qnum">Q${i+1}.</div><div class="qtit">${q.q}</div><div class="ch"><div class="ca">A. ${q.a}</div><div class="vs">VS</div><div class="cb">B. ${q.b}</div></div></div>`).join('');
+  const html=`<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><title>${t.name} 밸런스게임</title><style>body{font-family:sans-serif;background:#0a0a0f;color:#f0f0f8;padding:36px 18px;max-width:660px;margin:0 auto;}h1{text-align:center;margin-bottom:32px;font-size:22px;}.qcard{background:#1a1a26;border:1px solid rgba(255,255,255,.07);border-radius:13px;padding:20px;margin-bottom:14px;}.qnum{color:#7a7a99;font-size:11px;margin-bottom:4px;}.qtit{font-size:16px;font-weight:700;text-align:center;margin-bottom:18px;}.ch{display:grid;grid-template-columns:1fr auto 1fr;gap:9px;align-items:center;}.ca,.cb{background:#12121a;border:2px solid rgba(255,255,255,.07);border-radius:8px;padding:13px;text-align:center;font-weight:700;}.vs{background:linear-gradient(135deg,#ff4d6d,#7b5ea7);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:11px;margin:0 auto;}</style></head><body><h1>${t.emoji} ${t.name} 밸런스게임</h1>${qs}</body></html>`;
+  const blob=new Blob([html],{type:'text/html;charset=utf-8'});const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download=`balance_${t.id}.html`;a.click();URL.revokeObjectURL(url);
 }
 
-function nextBalance(){
-  const total=currentBalanceTopic.questions.length;
-  if(bgIdx>=total-1){
-    alert('모든 문제를 완료했습니다! 🎉\n수고하셨습니다!');
-    bgIdx=0;
-    renderBalanceQuestion();
-    return;
-  }
-  bgIdx++;
-  renderBalanceQuestion();
-}
-
-function backToBalanceTopics(){
-  document.getElementById('balance-topic-select').style.display='block';
-  document.getElementById('balance-play-area').style.display='none';
-}
-
-/* ── DOWNLOAD ── */
-function downloadBalanceGame(){
-  if(!currentBalanceTopic){alert('먼저 주제를 선택하세요!');return;}
-  const t=currentBalanceTopic;
-  const qs=t.questions.map((q,i)=>`
-    <div class="qcard">
-      <div class="qnum">Q${i+1}.</div>
-      <div class="qtitle">${q.q}</div>
-      <div class="choices">
-        <div class="choiceA">A. ${q.a}</div>
-        <div class="vs">VS</div>
-        <div class="choiceB">B. ${q.b}</div>
-      </div>
-    </div>
-  `).join('');
-
-  const html=`<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>${t.emoji} ${t.name} 밸런스게임</title>
-<style>
-  body{font-family:'Noto Sans KR',sans-serif;background:#0a0a0f;color:#f0f0f8;padding:40px 20px;max-width:700px;margin:0 auto;}
-  h1{text-align:center;margin-bottom:8px;font-size:28px;}
-  .sub{text-align:center;color:#7a7a99;margin-bottom:40px;}
-  .qcard{background:#1a1a26;border:1px solid rgba(255,255,255,.07);border-radius:18px;padding:28px;margin-bottom:20px;}
-  .qnum{color:#7a7a99;font-size:13px;margin-bottom:8px;}
-  .qtitle{font-size:20px;font-weight:700;text-align:center;margin-bottom:24px;}
-  .choices{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:center;}
-  .choiceA,.choiceB{background:#12121a;border:2px solid rgba(255,255,255,.08);border-radius:12px;padding:18px;text-align:center;font-weight:700;}
-  .vs{background:linear-gradient(135deg,#ff4d6d,#7b5ea7);width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;margin:0 auto;}
-  @media(max-width:500px){.choices{grid-template-columns:1fr;}.vs{margin:0 auto;}}
-  .footer{text-align:center;color:#7a7a99;font-size:12px;margin-top:40px;}
-</style>
-</head>
-<body>
-<h1>${t.emoji} ${t.name} 밸런스게임</h1>
-<p class="sub">총 ${t.questions.length}문제 · 둘 중 하나를 선택해야 한다면?</p>
-${qs}
-<div class="footer">GAMEVERSE — 밸런스게임 다운로드본 (결과 없음)</div>
-</body>
-</html>`;
-
-  const blob=new Blob([html],{type:'text/html;charset=utf-8'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  a.href=url;a.download=`balance_${t.id}.html`;
-  a.click();URL.revokeObjectURL(url);
-}
-
-/* ===================== FLASH GAMES ===================== */
+/* FLASH */
 function renderFlashList(){
-  const el=document.getElementById('flash-game-list');
-  el.innerHTML=flashGames.map(g=>`
-    <div class="game-card" onclick="openFlashGame('${g.id}')">
-      <div class="thumb" style="background:linear-gradient(135deg,${g.color}22,${g.color}44)">
-        <span style="font-size:64px">${g.emoji}</span>
-      </div>
-      <div class="card-body">
-        <div class="card-title">${g.emoji} ${g.name}</div>
-        <div class="card-meta"><span class="badge badge-${g.badge}">${g.badge.toUpperCase()}</span> ${g.desc}</div>
-      </div>
-    </div>
-  `).join('');
+  document.getElementById('flash-list').innerHTML=flashGames.map(g=>mkCard({emoji:g.emoji,color:g.color,title:g.name,desc:g.desc,badge:g.badge,meta:g.coming?'준비중':'미니게임',onclick:`openFlash('${g.id}')`,coming:g.coming})).join('');
 }
 renderFlashList();
 
-function openFlashGame(id){
-  currentFlashGame=flashGames.find(g=>g.id===id);
-  document.getElementById('flash-game-list').style.display='none';
-  document.getElementById('flash-play-area').style.display='block';
-  document.getElementById('flash-game-title').textContent=currentFlashGame.emoji+' '+currentFlashGame.name;
-  document.getElementById('flash-instructions').textContent=currentFlashGame.instructions;
-  flashScore=0;document.getElementById('flash-score').textContent=0;
-  clearInterval(flashGameLoop);
-  initFlashGame(id);
+function openFlash(id){
+  curFlash=flashGames.find(g=>g.id===id);
+  if(!curFlash||curFlash.coming)return;
+  document.getElementById('flash-list').style.display='none';
+  document.getElementById('flash-play').style.display='block';
+  document.getElementById('flash-ti').textContent=curFlash.emoji+' '+curFlash.name;
+  document.getElementById('flash-inst').textContent=curFlash.inst;
+  flashScore=0;document.getElementById('flash-sc').textContent=0;
+  clearInterval(flashLoop);
+  initFlash(id);
 }
+function closeFlash(){clearInterval(flashLoop);flashLoop=null;document.getElementById('flash-list').style.display='grid';document.getElementById('flash-play').style.display='none';}
+function restartFlash(){if(curFlash)openFlash(curFlash.id);}
+function startCurFlash(){if(curFlash)initFlash(curFlash.id,true);}
 
-function closeFlashGame(){
-  clearInterval(flashGameLoop);flashGameLoop=null;
-  document.getElementById('flash-game-list').style.display='grid';
-  document.getElementById('flash-play-area').style.display='none';
-}
-function restartFlashGame(){ if(currentFlashGame) openFlashGame(currentFlashGame.id); }
-function startCurrentFlashGame(){ initFlashGame(currentFlashGame.id,true); }
-
-/* ── GAME 1: CLICKER (두더지 잡기) ── */
-let clickerActive=false, clickerTimer=0, clickerMoles=[];
-function initFlashGame(id, autoStart=false){
-  const canvas=document.getElementById('game-canvas');
-  const ctx=canvas.getContext('2d');
-  clearInterval(flashGameLoop);
-  clickerActive=false;clickerMoles=[];clickerTimer=30;
-  canvas.onclick=null;
-
+let clickerActive=false,clickerTimer=0,clickerMoles=[];
+function initFlash(id,autoStart=false){
+  const cv=document.getElementById('game-cv');const ctx=cv.getContext('2d');
+  clearInterval(flashLoop);clickerActive=false;clickerMoles=[];clickerTimer=30;cv.onclick=null;
   if(id==='clicker'){
-    drawClickerIdle(ctx,canvas);
-    if(autoStart) startClicker(canvas,ctx);
-    document.getElementById('flash-start-btn').onclick=()=>startClicker(canvas,ctx);
+    drawClickerIdle(ctx,cv);
+    document.getElementById('flash-start-btn').onclick=()=>startClicker(cv,ctx);
+    if(autoStart)startClicker(cv,ctx);
   } else if(id==='dodge'){
-    initDodge(canvas,ctx,autoStart);
-    document.getElementById('flash-start-btn').onclick=()=>initDodge(canvas,ctx,true);
+    initDodge(cv,ctx,autoStart);document.getElementById('flash-start-btn').onclick=()=>initDodge(cv,ctx,true);
   } else if(id==='memory'){
-    initMemory(canvas,ctx,autoStart);
-    document.getElementById('flash-start-btn').onclick=()=>initMemory(canvas,ctx,true);
+    initMemory(cv,ctx,autoStart);document.getElementById('flash-start-btn').onclick=()=>initMemory(cv,ctx,true);
   }
 }
-
-function drawClickerIdle(ctx,canvas){
-  ctx.fillStyle='#0a0a0f';ctx.fillRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle='#7a7a99';ctx.font='bold 20px sans-serif';ctx.textAlign='center';
-  ctx.fillText('시작 버튼을 눌러주세요 🦔',canvas.width/2,canvas.height/2);
-}
-
-function startClicker(canvas,ctx){
-  clickerActive=true;clickerTimer=30;flashScore=0;clickerMoles=[];
-  document.getElementById('flash-score').textContent=0;
-  const W=canvas.width,H=canvas.height;
-  const COLS=4,ROWS=3;const CW=W/COLS,CH=H/ROWS;
-
-  function spawnMole(){
-    const col=Math.floor(Math.random()*COLS);
-    const row=Math.floor(Math.random()*ROWS);
-    const id=Date.now()+Math.random();
-    const life=700+Math.random()*800;
-    clickerMoles.push({col,row,id,created:Date.now(),life,hit:false});
-    setTimeout(()=>{clickerMoles=clickerMoles.filter(m=>m.id!==id);},life);
-  }
-
+function drawClickerIdle(ctx,cv){ctx.fillStyle='#0a0a0f';ctx.fillRect(0,0,cv.width,cv.height);ctx.fillStyle='#7a7a99';ctx.font='bold 17px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('시작 버튼을 눌러주세요 🦔',cv.width/2,cv.height/2);}
+function startClicker(cv,ctx){
+  clickerActive=true;clickerTimer=30;flashScore=0;clickerMoles=[];document.getElementById('flash-sc').textContent=0;
+  const W=cv.width,H=cv.height,COLS=4,ROWS=3,CW=W/COLS,CH=H/ROWS;
+  function spawnMole(){const col=Math.floor(Math.random()*COLS),row=Math.floor(Math.random()*ROWS),id=Date.now()+Math.random(),life=700+Math.random()*800;clickerMoles.push({col,row,id,created:Date.now(),life,hit:false});setTimeout(()=>{clickerMoles=clickerMoles.filter(m=>m.id!==id);},life);}
   function draw(){
     ctx.fillStyle='#0d1117';ctx.fillRect(0,0,W,H);
-    // grid
-    ctx.strokeStyle='rgba(255,255,255,0.05)';ctx.lineWidth=1;
+    ctx.strokeStyle='rgba(255,255,255,.04)';ctx.lineWidth=1;
     for(let c=1;c<COLS;c++){ctx.beginPath();ctx.moveTo(c*CW,0);ctx.lineTo(c*CW,H);ctx.stroke();}
     for(let r=1;r<ROWS;r++){ctx.beginPath();ctx.moveTo(0,r*CH);ctx.lineTo(W,r*CH);ctx.stroke();}
-    // moles
-    clickerMoles.forEach(m=>{
-      const x=m.col*CW+CW/2, y=m.row*CH+CH/2;
-      const age=(Date.now()-m.created)/m.life;
-      const alpha=1-Math.pow(age,2);
-      if(m.hit){
-        ctx.fillStyle=`rgba(255,77,109,${alpha})`;
-        ctx.font=`${Math.floor(32*(1+age))}px sans-serif`;
-        ctx.textAlign='center';ctx.textBaseline='middle';
-        ctx.globalAlpha=alpha;
-        ctx.fillText('+1',x,y-20*age*3);
-        ctx.globalAlpha=1;
-      } else {
-        ctx.globalAlpha=alpha;
-        ctx.font=`${Math.floor(CW*0.5)}px sans-serif`;
-        ctx.textAlign='center';ctx.textBaseline='middle';
-        ctx.fillText('🦔',x,y);
-        ctx.globalAlpha=1;
-      }
-    });
-    // timer
-    ctx.fillStyle='rgba(0,0,0,0.5)';ctx.fillRect(0,0,W,50);
-    ctx.fillStyle='#f0f0f8';ctx.font='bold 18px sans-serif';ctx.textAlign='left';ctx.textBaseline='middle';
-    ctx.fillText(`⏱ ${clickerTimer}초`,14,25);
-    ctx.textAlign='right';
-    ctx.fillText(`점수: ${flashScore}`,W-14,25);
+    clickerMoles.forEach(m=>{const x=m.col*CW+CW/2,y=m.row*CH+CH/2,age=(Date.now()-m.created)/m.life,alpha=1-Math.pow(age,2);ctx.font='28px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.globalAlpha=Math.max(0,alpha);ctx.fillText(m.hit?'💥':'🦔',x,y);ctx.globalAlpha=1;});
+    ctx.fillStyle='rgba(0,0,0,.5)';ctx.fillRect(0,0,W,38);ctx.fillStyle='#ffd166';ctx.font='bold 14px sans-serif';ctx.textAlign='left';ctx.textBaseline='middle';ctx.fillText('⏱ '+clickerTimer+'초',13,19);ctx.fillStyle='#f0f0f8';ctx.textAlign='right';ctx.fillText('점수: '+flashScore,W-13,19);
+    if(!clickerActive){ctx.fillStyle='rgba(0,0,0,.88)';ctx.fillRect(0,0,W,H);ctx.fillStyle='#ffd166';ctx.font='bold 24px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('⏰ 시간 종료!',W/2,H/2-24);ctx.fillStyle='#f0f0f8';ctx.font='bold 18px sans-serif';ctx.fillText('최종 점수: '+flashScore+'점',W/2,H/2+11);ctx.fillStyle='#7a7a99';ctx.font='12px sans-serif';ctx.fillText('재시작 버튼을 눌러주세요',W/2,H/2+45);}
   }
-
-  canvas.onclick=function(e){
-    if(!clickerActive)return;
-    const rect=canvas.getBoundingClientRect();
-    const scaleX=canvas.width/rect.width,scaleY=canvas.height/rect.height;
-    const mx=(e.clientX-rect.left)*scaleX, my=(e.clientY-rect.top)*scaleY;
-    const CW2=W/COLS,CH2=H/ROWS;
-    for(let i=clickerMoles.length-1;i>=0;i--){
-      const m=clickerMoles[i];if(m.hit)continue;
-      const cx=m.col*CW2+CW2/2, cy=m.row*CH2+CH2/2;
-      if(Math.abs(mx-cx)<CW2*0.45&&Math.abs(my-cy)<CH2*0.45){
-        m.hit=true;flashScore++;
-        document.getElementById('flash-score').textContent=flashScore;
-        setTimeout(()=>{clickerMoles=clickerMoles.filter(x=>x!==m);},300);
-        break;
-      }
-    }
-  };
-
-  let spawnInterval=setInterval(spawnMole,600);
-  let timerInterval=setInterval(()=>{
-    clickerTimer--;
-    if(clickerTimer<=0){
-      clickerActive=false;
-      clearInterval(spawnInterval);clearInterval(timerInterval);clearInterval(flashGameLoop);
-      clickerMoles=[];
-      ctx.fillStyle='rgba(0,0,0,0.85)';ctx.fillRect(0,0,W,H);
-      ctx.fillStyle='#ffd166';ctx.font='bold 32px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
-      ctx.fillText(`🎉 최종 점수: ${flashScore}점`,W/2,H/2-20);
-      ctx.fillStyle='#7a7a99';ctx.font='18px sans-serif';
-      ctx.fillText('재시작 버튼을 눌러주세요',W/2,H/2+30);
-    }
-  },1000);
-  clearInterval(flashGameLoop);
-  flashGameLoop=setInterval(draw,1000/30);
+  cv.onclick=e=>{if(!clickerActive)return;const r=cv.getBoundingClientRect(),mx=(e.clientX-r.left)*(W/r.width),my=(e.clientY-r.top)*(H/r.height),col=Math.floor(mx/CW),row=Math.floor(my/CH),idx=clickerMoles.findIndex(m=>m.col===col&&m.row===row&&!m.hit);if(idx>=0){clickerMoles[idx].hit=true;flashScore++;document.getElementById('flash-sc').textContent=flashScore;}};
+  let si=setInterval(()=>{if(clickerActive)spawnMole();else clearInterval(si);},600);
+  let ti=setInterval(()=>{clickerTimer--;if(clickerTimer<=0){clickerActive=false;clearInterval(si);clearInterval(ti);}},1000);
+  flashLoop=setInterval(draw,1000/60);
 }
 
-/* ── GAME 2: DODGE ── */
-let dodgeObj={x:0,y:0}, dodgeObs=[], dodgeActive=false, dodgeTime=0;
-function initDodge(canvas,ctx,autoStart=false){
-  const W=canvas.width,H=canvas.height;
-  dodgeObj={x:W/2,y:H-60};dodgeObs=[];dodgeActive=false;dodgeTime=0;
-  let mx=W/2,my=H-60;
-  function drawIdle(){
-    ctx.fillStyle='#0d1117';ctx.fillRect(0,0,W,H);
-    ctx.fillStyle='#7a7a99';ctx.font='bold 20px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
-    ctx.fillText('시작 버튼을 눌러주세요 🚀',W/2,H/2);
-  }
-  if(!autoStart){drawIdle();return;}
-  dodgeActive=true;flashScore=0;
-  canvas.onmousemove=e=>{const r=canvas.getBoundingClientRect();mx=(e.clientX-r.left)*(W/r.width);my=(e.clientY-r.top)*(H/r.height);};
-  canvas.ontouchmove=e=>{e.preventDefault();const t=e.touches[0];const r=canvas.getBoundingClientRect();mx=(t.clientX-r.left)*(W/r.width);my=(t.clientY-r.top)*(H/r.height);};
-  let obsTimer=0;
-  clearInterval(flashGameLoop);
-  flashGameLoop=setInterval(()=>{
-    if(!dodgeActive)return;
-    dodgeTime++;flashScore=Math.floor(dodgeTime/5);
-    document.getElementById('flash-score').textContent=flashScore;
-    dodgeObj.x+=(mx-dodgeObj.x)*0.15;dodgeObj.y+=(my-dodgeObj.y)*0.15;
-    obsTimer++;
-    if(obsTimer>Math.max(20,60-Math.floor(dodgeTime/100))){
-      obsTimer=0;
-      dodgeObs.push({x:Math.random()*W,y:-30,r:18+Math.random()*14,speed:2+Math.random()*2+dodgeTime/300});
-    }
-    dodgeObs.forEach(o=>o.y+=o.speed);
-    dodgeObs=dodgeObs.filter(o=>o.y<H+50);
-    // collision
-    dodgeObs.forEach(o=>{
-      const dx=dodgeObj.x-o.x,dy=dodgeObj.y-o.y;
-      if(Math.sqrt(dx*dx+dy*dy)<o.r+14){dodgeActive=false;}
-    });
-    // draw
-    ctx.fillStyle='#0d1117';ctx.fillRect(0,0,W,H);
-    dodgeObs.forEach(o=>{
-      const g=ctx.createRadialGradient(o.x,o.y,0,o.x,o.y,o.r);
-      g.addColorStop(0,'#ff4d6d');g.addColorStop(1,'#7b1d2d');
-      ctx.beginPath();ctx.arc(o.x,o.y,o.r,0,Math.PI*2);
-      ctx.fillStyle=g;ctx.fill();
-    });
-    ctx.font=`28px sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';
-    ctx.fillText('🚀',dodgeObj.x,dodgeObj.y);
-    ctx.fillStyle='rgba(0,0,0,0.4)';ctx.fillRect(0,0,W,40);
-    ctx.fillStyle='#f0f0f8';ctx.font='bold 16px sans-serif';ctx.textAlign='right';ctx.textBaseline='middle';
-    ctx.fillText(`점수: ${flashScore}`,W-14,20);
-    if(!dodgeActive){
-      ctx.fillStyle='rgba(0,0,0,0.85)';ctx.fillRect(0,0,W,H);
-      ctx.fillStyle='#ff4d6d';ctx.font='bold 30px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
-      ctx.fillText('💥 Game Over!',W/2,H/2-30);
-      ctx.fillStyle='#ffd166';ctx.font='bold 22px sans-serif';
-      ctx.fillText(`최종 점수: ${flashScore}점`,W/2,H/2+10);
-      ctx.fillStyle='#7a7a99';ctx.font='16px sans-serif';
-      ctx.fillText('재시작 버튼을 눌러주세요',W/2,H/2+50);
-      clearInterval(flashGameLoop);
-    }
-  },1000/60);
+let dodgeObj={x:300,y:225},dodgeObs=[],dodgeActive=false;
+function initDodge(cv,ctx,autoStart=false){
+  const W=cv.width,H=cv.height;
+  cv.onmousemove=e=>{const r=cv.getBoundingClientRect();dodgeObj.x=(e.clientX-r.left)*(W/r.width);dodgeObj.y=(e.clientY-r.top)*(H/r.height);};
+  cv.ontouchmove=e=>{e.preventDefault();const r=cv.getBoundingClientRect(),t=e.touches[0];dodgeObj.x=(t.clientX-r.left)*(W/r.width);dodgeObj.y=(t.clientY-r.top)*(H/r.height);};
+  dodgeObs=[];flashScore=0;dodgeActive=false;ctx.fillStyle='#0d1117';ctx.fillRect(0,0,W,H);ctx.fillStyle='#7a7a99';ctx.font='bold 17px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('시작 버튼을 눌러주세요 🚀',W/2,H/2);
+  if(!autoStart)return;
+  dodgeActive=true;flashScore=0;dodgeObj={x:W/2,y:H/2};
+  let si=setInterval(()=>{if(!dodgeActive){clearInterval(si);return;}const side=Math.floor(Math.random()*4);let x,y;if(side===0){x=Math.random()*W;y=-20;}else if(side===1){x=W+20;y=Math.random()*H;}else if(side===2){x=Math.random()*W;y=H+20;}else{x=-20;y=Math.random()*H;}const speed=2+flashScore*.02,angle=Math.atan2(dodgeObj.y-y,dodgeObj.x-x);dodgeObs.push({x,y,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,r:12+Math.random()*8});},800);
+  flashLoop=setInterval(()=>{if(!dodgeActive)return;flashScore++;document.getElementById('flash-sc').textContent=flashScore;dodgeObs.forEach(o=>{o.x+=o.vx;o.y+=o.vy;});dodgeObs=dodgeObs.filter(o=>o.x>-50&&o.x<W+50&&o.y>-50&&o.y<H+50);dodgeObs.forEach(o=>{const dx=dodgeObj.x-o.x,dy=dodgeObj.y-o.y;if(Math.sqrt(dx*dx+dy*dy)<o.r+14)dodgeActive=false;});ctx.fillStyle='#0d1117';ctx.fillRect(0,0,W,H);dodgeObs.forEach(o=>{const g=ctx.createRadialGradient(o.x,o.y,0,o.x,o.y,o.r);g.addColorStop(0,'#ff4d6d');g.addColorStop(1,'#7b1d2d');ctx.beginPath();ctx.arc(o.x,o.y,o.r,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();});ctx.font='25px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('🚀',dodgeObj.x,dodgeObj.y);ctx.fillStyle='rgba(0,0,0,.45)';ctx.fillRect(0,0,W,36);ctx.fillStyle='#f0f0f8';ctx.font='bold 13px sans-serif';ctx.textAlign='right';ctx.textBaseline='middle';ctx.fillText('점수: '+flashScore,W-13,18);if(!dodgeActive){ctx.fillStyle='rgba(0,0,0,.88)';ctx.fillRect(0,0,W,H);ctx.fillStyle='#ff4d6d';ctx.font='bold 24px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('💥 Game Over!',W/2,H/2-24);ctx.fillStyle='#ffd166';ctx.font='bold 18px sans-serif';ctx.fillText('최종 점수: '+flashScore+'점',W/2,H/2+11);ctx.fillStyle='#7a7a99';ctx.font='12px sans-serif';ctx.fillText('재시작 버튼을 눌러주세요',W/2,H/2+45);clearInterval(flashLoop);}},1000/60);
 }
 
-/* ── GAME 3: MEMORY ── */
-let memSeq=[],memInput=[],memShowIdx=0,memPhase='idle',memLevel=1;
-function initMemory(canvas,ctx,autoStart=false){
-  const W=canvas.width,H=canvas.height;
-  const COLS=3,ROWS=3;const CW=W/COLS,CH=H/ROWS;
+let memSeq=[],memIn=[],memPhase='idle',memLv=1;
+function initMemory(cv,ctx,autoStart=false){
+  const W=cv.width,H=cv.height,COLS=3,ROWS=3,CW=W/COLS,CH=H/ROWS;
   const colors=['#ff4d6d','#7b5ea7','#00d4aa','#ffd166','#4ecdc4','#45b7d1','#96ceb4','#ff6b6b','#dda0dd'];
-  memSeq=[];memInput=[];memPhase='idle';memLevel=1;flashScore=0;
+  memSeq=[];memIn=[];memPhase='idle';memLv=1;flashScore=0;
   function idx(c,r){return r*COLS+c;}
-  function drawGrid(highlight=-1,inputHL=-1){
-    ctx.fillStyle='#0d1117';ctx.fillRect(0,0,W,H);
-    for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++){
-      const i=idx(c,r);
-      const x=c*CW+4,y=r*CH+4,w=CW-8,h=CH-8;
-      const lit=(highlight===i)||(inputHL===i);
-      ctx.fillStyle=lit?colors[i]:'#1a1a26';
-      ctx.beginPath();ctx.roundRect(x,y,w,h,12);ctx.fill();
-      if(lit){ctx.shadowColor=colors[i];ctx.shadowBlur=20;}
-      ctx.strokeStyle=lit?colors[i]:'rgba(255,255,255,0.05)';ctx.lineWidth=2;
-      ctx.beginPath();ctx.roundRect(x,y,w,h,12);ctx.stroke();
-      ctx.shadowBlur=0;
-    }
-    ctx.fillStyle='rgba(0,0,0,0.4)';ctx.fillRect(0,0,W,38);
-    ctx.fillStyle='#f0f0f8';ctx.font='bold 15px sans-serif';ctx.textAlign='left';ctx.textBaseline='middle';
-    ctx.fillText(`레벨: ${memLevel}`,14,19);
-    ctx.textAlign='right';ctx.fillText(`점수: ${flashScore}`,W-14,19);
-  }
-  function drawStatus(msg,col='#f0f0f8'){
-    ctx.fillStyle='rgba(0,0,0,0.7)';ctx.fillRect(0,H/2-30,W,60);
-    ctx.fillStyle=col;ctx.font='bold 20px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
-    ctx.fillText(msg,W/2,H/2);
-  }
-  function showSequence(){
-    memPhase='showing';
-    let i=0;
-    function showNext(){
-      if(i>=memSeq.length){
-        drawGrid();drawStatus('이제 입력하세요!','#00d4aa');
-        setTimeout(()=>{drawGrid();memPhase='input';memInput=[];},800);
-        return;
-      }
-      drawGrid(memSeq[i]);
-      setTimeout(()=>{drawGrid();setTimeout(()=>{i++;showNext();},200);},600);
-    }
-    drawStatus('패턴을 기억하세요!','#ffd166');
-    setTimeout(showNext,800);
-  }
-  if(!autoStart){
-    drawGrid();drawStatus('시작 버튼을 눌러주세요 🧠','#7a7a99');
-    return;
-  }
-  memSeq=[Math.floor(Math.random()*9)];
-  drawGrid();
-  setTimeout(showSequence,500);
-  canvas.onclick=e=>{
-    if(memPhase!=='input')return;
-    const rect=canvas.getBoundingClientRect();
-    const mx=(e.clientX-rect.left)*(W/rect.width), my=(e.clientY-rect.top)*(H/rect.height);
-    const c=Math.floor(mx/CW), r=Math.floor(my/CH);
-    if(c<0||c>=COLS||r<0||r>=ROWS)return;
-    const i=idx(c,r);
-    drawGrid(-1,i);
-    setTimeout(()=>{drawGrid();},200);
-    memInput.push(i);
-    const pos=memInput.length-1;
-    if(memInput[pos]!==memSeq[pos]){
-      memPhase='idle';
-      drawStatus('❌ 틀렸습니다!','#ff4d6d');
-      setTimeout(()=>{
-        drawGrid();drawStatus('시작 버튼으로 재시작하세요','#7a7a99');
-      },1500);
-      return;
-    }
-    if(memInput.length===memSeq.length){
-      memPhase='idle';flashScore+=memLevel;memLevel++;
-      document.getElementById('flash-score').textContent=flashScore;
-      drawStatus('✅ 정답!','#00d4aa');
-      const next=Math.floor(Math.random()*9);
-      memSeq.push(next);
-      setTimeout(showSequence,1000);
-    }
-  };
+  function dg(hl=-1,ih=-1){ctx.fillStyle='#0d1117';ctx.fillRect(0,0,W,H);for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++){const i=idx(c,r),x=c*CW+4,y=r*CH+4,w=CW-8,h=CH-8,lit=(hl===i)||(ih===i);ctx.fillStyle=lit?colors[i]:'#1a1a26';ctx.beginPath();ctx.roundRect(x,y,w,h,9);ctx.fill();if(lit){ctx.shadowColor=colors[i];ctx.shadowBlur=16;}ctx.strokeStyle=lit?colors[i]:'rgba(255,255,255,.04)';ctx.lineWidth=2;ctx.beginPath();ctx.roundRect(x,y,w,h,9);ctx.stroke();ctx.shadowBlur=0;}ctx.fillStyle='rgba(0,0,0,.45)';ctx.fillRect(0,0,W,34);ctx.fillStyle='#f0f0f8';ctx.font='bold 12px sans-serif';ctx.textAlign='left';ctx.textBaseline='middle';ctx.fillText('레벨: '+memLv,11,17);ctx.textAlign='right';ctx.fillText('점수: '+flashScore,W-11,17);}
+  function ds(msg,col='#f0f0f8'){ctx.fillStyle='rgba(0,0,0,.72)';ctx.fillRect(0,H/2-25,W,50);ctx.fillStyle=col;ctx.font='bold 16px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(msg,W/2,H/2);}
+  function showSeq(){memPhase='showing';let i=0;function sn(){if(i>=memSeq.length){dg();ds('이제 입력하세요!','#00d4aa');setTimeout(()=>{dg();memPhase='input';memIn=[];},800);return;}dg(memSeq[i]);setTimeout(()=>{dg();setTimeout(()=>{i++;sn();},200);},600);}ds('패턴을 기억하세요!','#ffd166');setTimeout(sn,800);}
+  if(!autoStart){dg();ds('시작 버튼을 눌러주세요 🧠','#7a7a99');return;}
+  memSeq=[Math.floor(Math.random()*9)];dg();setTimeout(showSeq,500);
+  cv.onclick=e=>{if(memPhase!=='input')return;const rect=cv.getBoundingClientRect(),mx=(e.clientX-rect.left)*(W/rect.width),my=(e.clientY-rect.top)*(H/rect.height),c=Math.floor(mx/CW),r=Math.floor(my/CH);if(c<0||c>=COLS||r<0||r>=ROWS)return;const i=idx(c,r);dg(-1,i);setTimeout(()=>dg(),200);memIn.push(i);const pos=memIn.length-1;if(memIn[pos]!==memSeq[pos]){memPhase='idle';ds('❌ 틀렸습니다!','#ff4d6d');setTimeout(()=>{dg();ds('시작 버튼으로 재시작하세요','#7a7a99');},1500);return;}if(memIn.length===memSeq.length){memPhase='idle';flashScore+=memLv;memLv++;document.getElementById('flash-sc').textContent=flashScore;ds('✅ 정답!','#00d4aa');memSeq.push(Math.floor(Math.random()*9));setTimeout(showSeq,1000);}};
 }
 
-/* ===================== WORLDCUP ===================== */
+/* WORLDCUP */
 function renderWCTopics(){
-  const el=document.getElementById('wc-topics');
-  el.innerHTML=wcTopics.map(t=>`
-    <div class="topic-card" onclick="startWCTopic('${t.id}')">
-      <span class="topic-emoji">${t.emoji}</span>
-      <div><div class="topic-name">${t.name} 월드컵</div><div class="topic-count">${t.items.length}강</div></div>
-    </div>
-  `).join('');
+  document.getElementById('wc-topics').innerHTML=wcTopics.map(t=>`<div class="topic-c" onclick="startWCT('${t.id}')"><span class="tc-em">${t.emoji}</span><div><div class="tc-n">${t.name} 월드컵</div><div class="tc-c">${t.items.length}강</div></div></div>`).join('');
 }
 renderWCTopics();
 
-function startWCTopic(id){
-  wcTopic=wcTopics.find(t=>t.id===id);
-  wcRound=[...wcTopic.items].sort(()=>Math.random()-.5);
-  wcNextRound=[];wcCurrentPair=0;wcEliminated=[];
-  document.getElementById('wc-topic-select').style.display='none';
-  document.getElementById('wc-play-area').style.display='block';
-  document.getElementById('wc-bracket-area').style.display='none';
-  showWCPair();
+function startWCT(id){
+  wcT=wcTopics.find(t=>t.id===id);wcRound=[...wcT.items].sort(()=>Math.random()-.5);wcNext=[];wcPair=0;wcElim=[];
+  document.getElementById('wc-sel').style.display='none';document.getElementById('wc-play').style.display='block';document.getElementById('wc-res').style.display='none';
+  showWCP();
 }
-
-function showWCPair(){
-  const total=wcRound.length;
-  const pairNum=wcCurrentPair+1;
-  const roundName=total<=2?'결승':total<=4?'4강':total<=8?'8강':`${total}강`;
-  document.getElementById('wc-stage-label').textContent=`${roundName} — ${pairNum}/${Math.floor(total/2)} 경기`;
-  const a=wcRound[wcCurrentPair*2], b=wcRound[wcCurrentPair*2+1];
-  document.getElementById('wc-emoji-a').textContent=a.emoji;
-  document.getElementById('wc-name-a').textContent=a.name;
-  document.getElementById('wc-emoji-b').textContent=b.emoji;
-  document.getElementById('wc-name-b').textContent=b.name;
-  document.getElementById('wc-item-a').className='wc-item';
-  document.getElementById('wc-item-b').className='wc-item';
+function showWCP(){
+  const tot=wcRound.length,pn=wcPair+1,rn=tot<=2?'결승':tot<=4?'4강':tot<=8?'8강':`${tot}강`;
+  document.getElementById('wc-slbl').textContent=`${rn} — ${pn}/${Math.floor(tot/2)} 경기`;
+  const a=wcRound[wcPair*2],b=wcRound[wcPair*2+1];
+  document.getElementById('wc-ea').textContent=a.e;document.getElementById('wc-na').textContent=a.n;
+  document.getElementById('wc-eb').textContent=b.e;document.getElementById('wc-nb').textContent=b.n;
+  document.getElementById('wc-a').className='wc-it';document.getElementById('wc-b').className='wc-it';
 }
-
-function pickWC(side){
-  const a=wcRound[wcCurrentPair*2], b=wcRound[wcCurrentPair*2+1];
-  const winner=side==='a'?a:b;
-  const loser=side==='a'?b:a;
-  document.getElementById('wc-item-'+side).classList.add('winner');
-  wcEliminated.push(loser);
-  wcNextRound.push(winner);
-  setTimeout(()=>{
-    wcCurrentPair++;
-    if(wcCurrentPair*2>=wcRound.length){
-      if(wcNextRound.length===1){
-        showWCResult(wcNextRound[0]);
-      } else {
-        wcRound=wcNextRound;wcNextRound=[];wcCurrentPair=0;
-        showWCPair();
-      }
-    } else {
-      showWCPair();
-    }
-  },500);
+function pickWC(s){
+  const a=wcRound[wcPair*2],b=wcRound[wcPair*2+1],winner=s==='a'?a:b,loser=s==='a'?b:a;
+  document.getElementById('wc-'+s).classList.add('winner');wcElim.push(loser);wcNext.push(winner);
+  setTimeout(()=>{wcPair++;if(wcPair*2>=wcRound.length){if(wcNext.length===1)showWCRes(wcNext[0]);else{wcRound=wcNext;wcNext=[];wcPair=0;showWCP();}}else showWCP();},500);
 }
-
-function showWCResult(champion){
-  document.getElementById('wc-bracket-area').style.display='block';
-  document.getElementById('wc-play-area').querySelector('.wc-area').style.display='none';
-  const all=[champion,...wcEliminated.reverse()];
-  const el=document.getElementById('wc-bracket-list');
-  el.innerHTML=all.map((item,i)=>{
-    const rankClass=i===0?'rank-1':i===1?'rank-2':i===2?'rank-3':'rank-other';
-    const rankLabel=i===0?'👑':i===1?'🥈':i===2?'🥉':`${i+1}위`;
-    return `<div class="bracket-item"><div class="bracket-rank ${rankClass}">${i<3?''+(i+1):i+1}</div><span style="font-size:22px">${item.emoji}</span><span style="flex:1">${item.name}</span><span style="font-size:18px">${i===0?'👑':i===1?'🥈':i===2?'🥉':''}</span></div>`;
-  }).join('');
+function showWCRes(champ){
+  document.getElementById('wc-res').style.display='block';document.getElementById('wc-play').querySelector('.wc-area').style.display='none';
+  const all=[champ,...wcElim.reverse()];
+  document.getElementById('wc-br').innerHTML=all.map((it,i)=>{const rc=i===0?'rk1':i===1?'rk2':i===2?'rk3':'rko';return `<div class="br-it"><div class="br-rk ${rc}">${i+1}</div><span style="font-size:17px">${it.e}</span><span style="flex:1">${it.n}</span><span>${i===0?'👑':i===1?'🥈':i===2?'🥉':''}</span></div>`;}).join('');
 }
-
-function backToWCTopics(){
-  document.getElementById('wc-topic-select').style.display='block';
-  document.getElementById('wc-play-area').style.display='none';
-  document.getElementById('wc-bracket-area').style.display='none';
-  const inner=document.querySelector('#wc-play-area .wc-area');
-  if(inner)inner.style.display='block';
+function backWC(){
+  document.getElementById('wc-sel').style.display='block';document.getElementById('wc-play').style.display='none';document.getElementById('wc-res').style.display='none';
+  const inner=document.querySelector('#wc-play .wc-area');if(inner)inner.style.display='block';
 }
+function restartWC(){document.getElementById('wc-res').style.display='none';const inner=document.querySelector('#wc-play .wc-area');if(inner)inner.style.display='block';startWCT(wcT.id);}
 
-function restartWC(){
-  document.getElementById('wc-bracket-area').style.display='none';
-  const inner=document.querySelector('#wc-play-area .wc-area');
-  if(inner)inner.style.display='block';
-  startWCTopic(wcTopic.id);
-}
+/* MODAL */
+function closeModal(){document.getElementById('modal-ov').classList.remove('open');}
 
-/* ===================== MODAL ===================== */
-function closeModal(e){if(e.target===document.getElementById('modal-overlay'))closeModalDirect();}
-function closeModalDirect(){document.getElementById('modal-overlay').classList.remove('open');}
-
-/* init */
+/* INIT */
 showPage('home');
 </script>
 </body>
